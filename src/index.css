@@ -53,8 +53,11 @@
   --online-color: #43B581;
 
   --navbar-color: #1F1F1F; /* Más oscuro que card-color para distinguir */
-}
 
+  --text-muted: #A0A0A0;  /* Color más claro para texto secundario */
+  --text-secondary: #CCCCCC;  /* Color para textos menos importantes */
+  --card-title-color: #FFFFFF;  /* Color para títulos de tarjetas */
+}
 
 body {
   margin: 0;
@@ -317,13 +320,17 @@ a:focus,
 }
 
 .card-body {
-  color: var(--card-text);
+  color: var(--font-color);
 }
 
 .card-footer {
   background-color: var(--card-color);
   color: var(--card-text);
   border-top: 1px solid var(--card-border);
+}
+
+.card-title {
+  color: var(--card-title-color) !important;
 }
 
 input,
@@ -668,4 +675,51 @@ select:focus {
 
 .tox .tox-dialog__body-content {
   color: var(--font-color) !important;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Estilos específicos para las publicaciones */
+.card-body .text-muted {
+  color: var(--text-muted) !important;
+}
+
+.card-body a {
+  color: var(--link-color);
+}
+
+.card-body a:hover {
+  color: var(--link-hover);
+}
+
+/* Ajustes para el contenido de las publicaciones */
+.card-body div[dangerouslySetInnerHTML] {
+  color: var(--font-color);
+}
+
+/* Estilos para el autor y la fecha */
+.publication-author {
+  color: var(--text-secondary) !important;
+}
+
+.publication-date {
+  color: var(--text-muted) !important;
+}
+
+.library-detail-container {
+  background-color: var(--card-color);
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+}
+
+.library-card {
+  background-color: var(--card-color);
+}
+
+.library-card-content {
+  overflow: hidden;
+  flex: 1;
 }

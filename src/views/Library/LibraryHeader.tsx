@@ -44,6 +44,7 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
                 placeholder="Buscar en la biblioteca"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-dark text-light border-secondary"
               />
             </Form.Group>
           </Form>
@@ -65,7 +66,7 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
             display: 'inline-flex',
             justifyContent: 'flex-end',
             alignItems: 'center',
-            backgroundColor: 'var(--white-color)',
+            backgroundColor: 'var(--card-color)',
             borderRadius: '10px',
             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
             padding: '10px',

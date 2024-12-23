@@ -53,7 +53,7 @@ const UserListPage: React.FC = () => {
         maxPoints: maxPoints ? Number(maxPoints) : undefined,
       };
       console.log(params);
-      const response = await axios.get('/discord-users', { params });
+      const response = await axios.get(process.env.REACT_APP_API_URL + '/discord-users', { params });
       console.log(response);
       if (response.data && Array.isArray(response.data.users)) {
         setUsers(response.data.users);
@@ -85,18 +85,18 @@ const UserListPage: React.FC = () => {
 
   const sortedUsers = React.useMemo(() => {
     if (!Array.isArray(users)) return [];
-    
+
     return [...users].sort((a, b) => {
       if (!sortConfig.key) return 0;
       const direction = sortConfig.direction === 'asc' ? 1 : -1;
-      
+
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
-      
+
       if (valueA === null) return 1;
       if (valueB === null) return -1;
       if (valueA === valueB) return 0;
-      
+
       return valueA > valueB ? direction : -direction;
     });
   }, [users, sortConfig]);
@@ -116,7 +116,7 @@ const UserListPage: React.FC = () => {
     setSavingPoints(prev => ({ ...prev, [user.id]: true }));
     try {
       await api.patch(`/user/${user.id}/points`, { points: parseInt(newPoints) });
-      setUsers(prev => prev.map(u => 
+      setUsers(prev => prev.map(u =>
         u.id === user.id ? { ...u, penaltyPoints: parseInt(newPoints) } : u
       ));
       dispatch(addNotification({ message: 'Puntos actualizados correctamente', color: 'success' }));
@@ -171,10 +171,10 @@ const UserListPage: React.FC = () => {
         <thead>
           <tr>
             {['ID', 'Usuario', 'Apodo', 'Roles', 'Puntos'].map((header, index) => {
-              
+
               return (
-                <th 
-                  key={index} 
+                <th
+                  key={index}
                   onClick={() => header && handleSort(header as keyof User)}
                   style={{ cursor: header ? 'pointer' : 'default' }}
                 >

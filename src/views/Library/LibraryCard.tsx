@@ -19,26 +19,24 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
   handleShare,
 }) => {
   return (
-    <Card className="mb-4" key={library.id} style={{ height: '200px', display: 'flex', flexDirection: 'column' }}>
+    <Card 
+      className="mb-4 library-card" 
+      key={library.id} 
+    >
       <Card.Body 
         onClick={onClick} 
         style={{ 
           cursor: 'pointer',
-          overflow: 'hidden',
+          height: '200px',
           display: 'flex',
           flexDirection: 'column',
-          flex: 1
+          flex: 1,
         }}
       >
         <div className="d-flex justify-content-between">
           <Card.Title>{library.title}</Card.Title>
         </div>
-        <div
-          style={{
-            overflow: 'hidden',
-            flex: 1
-          }}
-        >
+        <div className="library-card-content">
           <div dangerouslySetInnerHTML={{ __html: library.description }} />
         </div>
       </Card.Body>

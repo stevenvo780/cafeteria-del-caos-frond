@@ -16,13 +16,13 @@ const ShareNoteModal: React.FC<ShareNoteModalProps> = ({ show, onHide, note }) =
 
   return (
     <Modal show={show} onHide={onHide} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>Compartir Nota</Modal.Title>
+      <Modal.Header closeButton className="border-secondary">
+        <Modal.Title style={{ color: 'var(--font-color)' }}>Compartir Nota</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{ backgroundColor: 'var(--card-color)', color: 'var(--font-color)' }}>
         <SocialShareButtons shareUrl={shareUrl} title={title} summary={summary} />
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className="border-secondary">
         <Button variant="secondary" onClick={onHide}>
           Cerrar
         </Button>
