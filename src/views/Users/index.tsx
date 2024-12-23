@@ -1,31 +1,86 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Container, Row, Col, Modal, Form, Spinner } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col, Modal, Form, Spinner, InputGroup } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addNotification } from '../../redux/ui';
 import axios from '../../utils/axios';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaSearch, FaSort } from 'react-icons/fa';
+
+interface User {
+  id: string;
+  email: string;
+  name: string | null;
+  role: string;
+  penaltyPoints: number;
+}
+
+interface SortConfig {
+  key: keyof User | null;
+  direction: 'asc' | 'desc';
+}
 
 const UserListPage: React.FC = () => {
-  const [users, setUsers] = useState<any[]>([]);
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [minPoints, setMinPoints] = useState<string>('');
+  const [maxPoints, setMaxPoints] = useState<string>('');
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
+  const [page, setPage] = useState(1);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const limit = 10;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('/user');
-        setUsers(response.data);
-      } catch (error) {
-        dispatch(addNotification({ message: 'Error al cargar usuarios', color: 'danger' }));
-      }
-    };
-    fetchUsers();
-  }, [dispatch]);
+  const fetchUsers = async () => {
+    try {
+      setIsLoading(true);
+      const offset = (page - 1) * limit;
+      const params = {
+        limit,
+        offset,
+        search: searchTerm || undefined,
+        minPoints: minPoints || undefined,
+        maxPoints: maxPoints || undefined,
+      };
 
-  const handleEditClick = (user: any) => {
+      const response = await axios.get('/user/filtered', { params });
+      setUsers(response.data.users);
+      setTotalUsers(response.data.total);
+    } catch (error) {
+      dispatch(addNotification({ message: 'Error al cargar usuarios', color: 'danger' }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [page, searchTerm, minPoints, maxPoints]);
+
+  const handleSort = (key: keyof User) => {
+    setSortConfig(prevConfig => ({
+      key,
+      direction: prevConfig.key === key && prevConfig.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  const sortedUsers = [...users].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    const direction = sortConfig.direction === 'asc' ? 1 : -1;
+    
+    const valueA = a[sortConfig.key];
+    const valueB = b[sortConfig.key];
+    
+    if (valueA === null) return 1;
+    if (valueB === null) return -1;
+    if (valueA === valueB) return 0;
+    
+    return valueA > valueB ? direction : -direction;
+  });
+
+  const handleEditClick = (user: User) => {
     setSelectedUser(user);
     setRole(user.role);
     setShowModal(true);
@@ -34,9 +89,9 @@ const UserListPage: React.FC = () => {
   const handleUpdateRole = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.patch(`/user/${selectedUser.id}`, { role });
+      const response = await axios.patch(`/user/${selectedUser!.id}`, { role });
       if (response.status === 200) {
-        setUsers(users.map((user) => (user.id === selectedUser.id ? { ...user, role } : user)));
+        setUsers(users.map((user) => (user.id === selectedUser!.id ? { ...user, role } : user)));
         dispatch(addNotification({ message: 'Rol actualizado correctamente', color: 'success' }));
       } else {
         dispatch(addNotification({ message: 'Error al actualizar el rol', color: 'danger' }));
@@ -49,39 +104,115 @@ const UserListPage: React.FC = () => {
     }
   };
 
+  const totalPages = Math.ceil(totalUsers / limit);
+
   return (
     <Container className="mt-5">
-      <Row>
-        <Col>
-          <h2 className="text-center mb-4">Lista de Usuarios</h2>
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Correo</th>
-                <th>Nombre</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.email}</td>
-                  <td>{user.name || 'Sin nombre'}</td>
-                  <td>{user.role}</td>
-                  <td>
-                    <Button variant="secondary" size="sm" onClick={() => handleEditClick(user)}>
-                      <FaEdit /> Editar Rol
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+      <Row className="mb-4">
+        <Col md={6}>
+          <InputGroup>
+            <InputGroup.Text>
+              <FaSearch />
+            </InputGroup.Text>
+            <Form.Control
+              placeholder="Buscar por nombre o email"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </InputGroup>
+        </Col>
+        <Col md={6}>
+          <Row>
+            <Col>
+              <Form.Control
+                type="number"
+                placeholder="Puntos mínimos"
+                value={minPoints}
+                onChange={(e) => setMinPoints(e.target.value)}
+              />
+            </Col>
+            <Col>
+              <Form.Control
+                type="number"
+                placeholder="Puntos máximos"
+                value={maxPoints}
+                onChange={(e) => setMaxPoints(e.target.value)}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
+
+      <Table striped bordered hover responsive>
+        <thead>
+          <tr>
+            {['ID', 'Correo', 'Nombre', 'Rol', 'Puntos', 'Acciones'].map((header, index) => {
+              const columnKeys: (keyof User | null)[] = ['id', 'email', 'name', 'role', 'penaltyPoints', null];
+              const key = columnKeys[index];
+              
+              return (
+                <th 
+                  key={index} 
+                  onClick={() => key && handleSort(key)}
+                  style={{ cursor: key ? 'pointer' : 'default' }}
+                >
+                  {header} {sortConfig.key === key && key && (
+                    <FaSort />
+                  )}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {isLoading ? (
+            <tr>
+              <td colSpan={6} className="text-center">
+                <Spinner animation="border" />
+              </td>
+            </tr>
+          ) : (
+            sortedUsers.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.email}</td>
+                <td>{user.name || 'Sin nombre'}</td>
+                <td>{user.role}</td>
+                <td>{user.penaltyPoints}</td>
+                <td>
+                  <Button variant="secondary" size="sm" onClick={() => handleEditClick(user)}>
+                    <FaEdit /> Editar Rol
+                  </Button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </Table>
+
+      <div className="d-flex justify-content-between align-items-center">
+        <span>Total: {totalUsers} usuarios</span>
+        <div>
+          <Button
+            variant="outline-primary"
+            className="me-2"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            Anterior
+          </Button>
+          <span className="mx-2">
+            Página {page} de {totalPages}
+          </span>
+          <Button
+            variant="outline-primary"
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
+          >
+            Siguiente
+          </Button>
+        </div>
+      </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
