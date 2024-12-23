@@ -16,6 +16,11 @@ import LibraryHeader from './LibraryHeader';
 import { UserRole } from '../../utils/types';
 import { getRoleInSpanish } from '../../utils/roleTranslation';
 
+interface LibraryReference {
+  id: number;
+  title: string;
+}
+
 const LibraryPage: React.FC = () => {
   const { noteId } = useParams<{ noteId: string | undefined }>();
   const navigate = useNavigate();
@@ -34,12 +39,14 @@ const LibraryPage: React.FC = () => {
   const itemsPerPage = 50;
   const userRole = useSelector((state: RootState) => state.auth.userData?.role);
   const permissionsEditable = (userRole === UserRole.ADMIN || userRole === UserRole.SUPER_ADMIN || userRole === UserRole.EDITOR);
+  const [availableParents, setAvailableParents] = useState<LibraryReference[]>([]);
 
   useEffect(() => {
     if (noteId) {
       fetchNoteById(parseInt(noteId));
     } else {
       fetchLibraries();
+      fetchAvailableParents();
     }
   }, [noteId]);
 
@@ -164,6 +171,7 @@ const LibraryPage: React.FC = () => {
 
   const handleEdit = (library: Library) => {
     setEditingLibrary(library);
+    fetchAvailableParents();
     setShowModal(true);
   };
 
@@ -205,6 +213,29 @@ const LibraryPage: React.FC = () => {
     fetchLibraries(pageNumber, itemsPerPage);
   };
 
+  const fetchAvailableParents = async () => {
+    try {
+      const response = await api.get<LibraryReference[]>('/library/view/references');
+      const allReferences = response.data;
+      
+      setAvailableParents(allReferences.filter(ref => 
+        ref.id !== editingLibrary?.id &&
+        !isDescendant(ref.id, editingLibrary?.id)
+      ));
+    } catch (error) {
+      dispatch(addNotification({ message: 'Error al obtener referencias disponibles', color: 'danger' }));
+    }
+  };
+
+  const isDescendant = (parentId: number, currentId: number | undefined): boolean => {
+    if (!currentId) return false;
+    const parent = libraries.find(lib => lib.id === parentId);
+    if (!parent?.children) return false;
+    return parent.children.some(child => 
+      child.id === currentId || isDescendant(child.id, currentId)
+    );
+  };
+
   return (
     <>
       <Container>
@@ -215,6 +246,7 @@ const LibraryPage: React.FC = () => {
           onDelete={() => currentNote && handleDelete(currentNote)}
           onCreate={() => {
             setEditingLibrary(null);
+            fetchAvailableParents();
             setShowModal(true);
           }}
           searchQuery={searchQuery}
@@ -285,6 +317,8 @@ const LibraryPage: React.FC = () => {
           onSubmit={handleCreateOrUpdate}
           editingLibrary={editingLibrary}
           showModal={showModal}
+          availableParents={availableParents}
+          currentNote={currentNote} // Pasar currentNote al modal
         />
       )}
       {selectedLibrary && (
