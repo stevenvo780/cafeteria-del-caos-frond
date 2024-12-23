@@ -1,6 +1,6 @@
 {
-  "short_name": "Tertulia literaria",
-  "name": "Tertulia literaria",
+  "short_name": "Cafeteria del Caos",
+  "name": "Cafeteria del Caos - Comunidad Intelectual",
   "icons": [
     {
       "src": "favicon.jpg",
@@ -13,13 +13,15 @@
       "sizes": "192x192"
     },
     {
-      "src": "logo.jpg",
-      "type": "image/png",
+      "src": "logo.webp",
+      "type": "image/webp",
       "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#7B3F00",
+  "background_color": "#ffffff",
+  "description": "Cafeteria del Caos es un espacio inclusivo para debates, literatura, filosofía, ciencia y tecnología. Promueve el aprendizaje, el pensamiento crítico y el desarrollo intelectual.",
+  "lang": "es"
 }

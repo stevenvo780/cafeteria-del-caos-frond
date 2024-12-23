@@ -1,130 +1,132 @@
-# Tertulia Literaria - Proyecto Next.js
+Aquí tienes el archivo README refactorizado para reflejar el cambio al proyecto **Cafeteria del Caos**:
 
-**Tertulia Literaria** es un grupo digital cultural cuyo propósito es fomentar el diálogo y el aprendizaje en áreas como la literatura, los debates, la filosofía, el arte y la ciencia, incluyendo la tecnología. Nuestro objetivo es crear un espacio inclusivo donde las ideas y el conocimiento puedan florecer a través de interacciones significativas y respetuosas.
+# Cafeteria del Caos - Next.js Project
 
-## Descripción del Proyecto
+**Cafeteria del Caos** is a digital cultural group whose purpose is to foster dialogue and learning in areas such as literature, debates, philosophy, art, science, and technology. Our goal is to create an inclusive space where ideas and knowledge can flourish through meaningful and respectful interactions.
 
-Este proyecto es una plataforma web de código abierto construida con [Next.js](https://nextjs.org/), diseñada para apoyar la misión de Tertulia Literaria al proporcionar un espacio para la participación de la comunidad, el intercambio de contenidos y la organización de eventos. La plataforma actúa como un centro para el intercambio intelectual y cultural, dando la bienvenida a profesionales, maestros, estudiantes y cualquier persona interesada en ampliar sus horizontes.
+## Project Description
 
-### Características Principales
+This project is an open-source web platform built with [Next.js](https://nextjs.org/), designed to support the mission of Cafeteria del Caos by providing a space for community participation, content sharing, and event organization. The platform acts as a hub for intellectual and cultural exchange, welcoming professionals, teachers, students, and anyone interested in broadening their horizons.
 
-- **Gestión de Eventos**: Programar y gestionar eventos culturales e intelectuales como debates, lecturas y conferencias.
-- **Publicación de Contenidos**: Publicar y compartir artículos, ensayos y discusiones en un formato de estilo blog.
-- **Interacción Comunitaria**: Fomentar conversaciones significativas y colaboraciones dentro de un entorno seguro y respetuoso.
-- **Código Abierto**: El proyecto está abierto para contribuciones de la comunidad con el fin de mejorar y ampliar su funcionalidad.
+### Key Features
 
-## Primeros Pasos
+- **Event Management**: Schedule and manage cultural and intellectual events such as debates, readings, and conferences.
+- **Content Publishing**: Publish and share articles, essays, and discussions in a blog-style format.
+- **Community Interaction**: Foster meaningful conversations and collaborations within a safe and respectful environment.
+- **Open Source**: The project is open to community contributions to improve and expand its functionality.
 
-### Requisitos Previos
+## Getting Started
+
+### Prerequisites
 
 - Node.js 18.x
-- npm >= 6.x o yarn >= 1.x
+- npm >= 6.x or yarn >= 1.x
 - Git
 - Docker
 
-### Instalación
+### Installation
 
-1. Clona el repositorio:
+1. Clone the repository:
 
     ```bash
-    git clone https://github.com/stevenvo780/tertulialiteraria-frond.git
-    cd tertulia-literaria
+    git clone https://github.com/stevenvo780/cafeteriadelcaos-frontend.git
+    cd cafeteria-del-caos
     ```
 
-2. Instala las dependencias:
+2. Install the dependencies:
 
     ```bash
     npm install
     ```
 
-    o
+    or
 
     ```bash
     yarn install
     ```
 
-3. Crea un archivo `.env.local` en el directorio raíz y configura tus variables de entorno:
+3. Create a `.env.local` file in the root directory and configure your environment variables:
 
     ```bash
-    NEXT_PUBLIC_API_URL=<Tu URL de la API>
-    NEXT_PUBLIC_FIREBASE_API_KEY=<Tu clave API de Firebase>
-    # Añade otras variables de entorno según sea necesario
+    NEXT_PUBLIC_API_URL=<Your API URL>
+    NEXT_PUBLIC_FIREBASE_API_KEY=<Your Firebase API Key>
+    # Add other environment variables as needed
     ```
 
-4. Ejecuta el servidor de desarrollo:
+4. Start the development server:
 
     ```bash
     npm run dev
     ```
 
-    o
+    or
 
     ```bash
     yarn dev
     ```
 
-5. Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver el resultado.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-### Usando Docker
+### Using Docker
 
-1. Construye la imagen de Docker:
-
-    ```bash
-    docker build -t tertulia-literaria .
-    ```
-
-2. Ejecuta el contenedor:
+1. Build the Docker image:
 
     ```bash
-    docker run -p 3000:3000 tertulia-literaria
+    docker build -t cafeteria-del-caos .
     ```
 
-3. Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación corriendo en Docker.
+2. Run the container:
 
-### Construcción para Producción
+    ```bash
+    docker run -p 3000:3000 cafeteria-del-caos
+    ```
 
-Para crear una compilación optimizada para producción:
+3. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application running in Docker.
+
+### Production Build
+
+To create an optimized production build:
 
 ```bash
 npm run build
 ```
 
-o
+or
 
 ```bash
 yarn build
 ```
 
-Luego, inicia el servidor:
+Then, start the server:
 
 ```bash
 npm start
 ```
 
-o
+or
 
 ```bash
 yarn start
 ```
 
-### Despliegue
+### Deployment
 
-Para el despliegue, puedes usar plataformas como [Vercel](https://vercel.com/), [Netlify](https://www.netlify.com/) o cualquier servicio de alojamiento que soporte aplicaciones Node.js. Asegúrate de configurar tus variables de entorno en la plataforma de alojamiento tal como lo hiciste en el archivo `.env.local`.
+For deployment, you can use platforms like [Vercel](https://vercel.com/), [Netlify](https://www.netlify.com/), or any hosting service that supports Node.js applications. Be sure to configure your environment variables on the hosting platform as you did in the `.env.local` file.
 
-## Contribuciones
+## Contributions
 
-¡Damos la bienvenida a contribuciones de la comunidad! Si estás interesado en contribuir, por favor haz un fork del repositorio y crea un pull request con tus cambios. Antes de enviar un pull request, asegúrate de que tu código sigue nuestros estándares de codificación y pasa todas las pruebas.
+We welcome community contributions! If you're interested in contributing, please fork the repository and create a pull request with your changes. Before submitting a pull request, ensure your code adheres to our coding standards and passes all tests.
 
-1. Haz un fork del repositorio
-2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`)
-3. Realiza tus cambios (`git commit -m 'Añadir nueva funcionalidad'`)
-4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Crea un nuevo Pull Request
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/new-feature`).
+3. Make your changes (`git commit -m 'Add new feature'`).
+4. Push to the branch (`git push origin feature/new-feature`).
+5. Create a new Pull Request.
 
-## Licencia
+## License
 
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Contacto
+## Contact
 
-Para preguntas, comentarios o contribuciones, no dudes en ponerte en contacto con el equipo de Tertulia Literaria.
+For questions, feedback, or contributions, feel free to contact the Cafeteria del Caos team.

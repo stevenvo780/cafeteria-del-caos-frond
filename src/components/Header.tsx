@@ -46,7 +46,7 @@ const Header: React.FC = () => {
         <Container fluid className="pl-4 pr-4">
           <Navbar.Brand as={Link} to="/">
             <Image
-              src="/images/logo.jpg"
+              src="/images/logo.webp"
               alt="Logo"
               roundedCircle
               style={{ width: '40px', height: '40px', objectFit: 'cover', marginInline: 10 }}
@@ -59,7 +59,7 @@ const Header: React.FC = () => {
               }}
               className="ml-2"
             >
-              Tertulia Literaria
+              Cafeteria del caos
             </span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggleSidebar} />

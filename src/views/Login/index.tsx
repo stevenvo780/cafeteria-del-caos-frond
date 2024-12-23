@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
   return (
     <Container>
       <Row>
-        <h1 className="d-flex align-items-center justify-content-center" style={{ fontFamily: "Montaga", fontSize: "3rem", position: "relative", top: "2vw", }}>Tertulia Literaria</h1>
+        <h1 className="d-flex align-items-center justify-content-center" style={{ fontFamily: "Montaga", fontSize: "3rem", position: "relative", top: "2vw", }}>Cafeteria del caos</h1>
         <Col sm="6" className="d-flex align-items-center justify-content-center" style={{ marginTop: "5%" }}>
           <Image
             src="/images/login.png"

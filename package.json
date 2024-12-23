@@ -1,5 +1,5 @@
 {
-  "name": "tertulialiteraria-frond",
+  "name": "cafeteria-del-caos-frontend",
   "version": "0.1.0",
   "private": true,
   "author": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stevenvo780/tertulialiteraria-frond.git"
+    "url": "https://github.com/stevenvo780/cafeteria-del-caos-frontend.git"
   },
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.4",
