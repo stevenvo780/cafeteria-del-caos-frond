@@ -10,7 +10,6 @@ interface User {
   email: string;
   name: string | null;
   role: string;
-  penaltyPoints: number;
 }
 
 interface SortConfig {
@@ -25,15 +24,11 @@ const UserListPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [minPoints, setMinPoints] = useState<string>('');
-  const [maxPoints, setMaxPoints] = useState<string>('');
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
   const [page, setPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
   const limit = 10;
   const dispatch = useDispatch();
-  const [editingPoints, setEditingPoints] = useState<{ [key: string]: string }>({});
-  const [savingPoints, setSavingPoints] = useState<{ [key: string]: boolean }>({});
 
   const fetchUsers = async () => {
     try {
@@ -43,8 +38,6 @@ const UserListPage: React.FC = () => {
         limit,
         offset,
         search: searchTerm || undefined,
-        minPoints: minPoints ? Number(minPoints) : undefined,
-        maxPoints: maxPoints ? Number(maxPoints) : undefined,
       };
       console.log(params);
       const response = await axios.get('/user', { params });
@@ -68,7 +61,7 @@ const UserListPage: React.FC = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [page, searchTerm, minPoints, maxPoints]);
+  }, [page, searchTerm]);
 
   const handleSort = (key: keyof User) => {
     setSortConfig(prevConfig => ({
@@ -79,18 +72,18 @@ const UserListPage: React.FC = () => {
 
   const sortedUsers = React.useMemo(() => {
     if (!Array.isArray(users)) return [];
-    
+
     return [...users].sort((a, b) => {
       if (!sortConfig.key) return 0;
       const direction = sortConfig.direction === 'asc' ? 1 : -1;
-      
+
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
-      
+
       if (valueA === null) return 1;
       if (valueB === null) return -1;
       if (valueA === valueB) return 0;
-      
+
       return valueA > valueB ? direction : -direction;
     });
   }, [users, sortConfig]);
@@ -121,37 +114,12 @@ const UserListPage: React.FC = () => {
     }
   };
 
-  const handlePointsChange = (userId: string, value: string) => {
-    setEditingPoints(prev => ({ ...prev, [userId]: value }));
-  };
-
-  const handlePointsBlur = async (user: User) => {
-    const newPoints = editingPoints[user.id];
-    if (newPoints === undefined || newPoints === user.penaltyPoints.toString()) {
-      return;
-    }
-
-    setSavingPoints(prev => ({ ...prev, [user.id]: true }));
-    try {
-      await axios.patch(`/user/${user.id}/points`, { points: parseInt(newPoints) });
-      setUsers(prev => prev.map(u => 
-        u.id === user.id ? { ...u, penaltyPoints: parseInt(newPoints) } : u
-      ));
-      dispatch(addNotification({ message: 'Puntos actualizados correctamente', color: 'success' }));
-    } catch (error) {
-      dispatch(addNotification({ message: 'Error al actualizar los puntos', color: 'danger' }));
-      setEditingPoints(prev => ({ ...prev, [user.id]: user.penaltyPoints.toString() }));
-    } finally {
-      setSavingPoints(prev => ({ ...prev, [user.id]: false }));
-    }
-  };
-
   const totalPages = Math.ceil(totalUsers / limit);
 
   return (
-    <Container className="mt-5">
+    <><Container className="mt-5">
       <Row className="mb-4">
-        <Col md={6}>
+        <Col md={12}>
           <InputGroup>
             <InputGroup.Text>
               <FaSearch />
@@ -159,46 +127,23 @@ const UserListPage: React.FC = () => {
             <Form.Control
               placeholder="Buscar por nombre o email"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+              onChange={(e) => setSearchTerm(e.target.value)} />
           </InputGroup>
-        </Col>
-        <Col md={6}>
-          <Row>
-            <Col>
-              <Form.Control
-                type="number"
-                placeholder="Puntos mínimos"
-                value={minPoints}
-                onChange={(e) => setMinPoints(e.target.value)}
-              />
-            </Col>
-            <Col>
-              <Form.Control
-                type="number"
-                placeholder="Puntos máximos"
-                value={maxPoints}
-                onChange={(e) => setMaxPoints(e.target.value)}
-              />
-            </Col>
-          </Row>
         </Col>
       </Row>
 
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            {['ID', 'Correo', 'Nombre', 'Rol', 'Puntos', 'Acciones'].map((header, index) => {
-              const columnKeys: (keyof User | null)[] = ['id', 'email', 'name', 'role', 'penaltyPoints', null];
-              const key = columnKeys[index];
-              
+            {['ID', 'Correo', 'Nombre', 'Rol', 'Acciones'].map((header, index) => {
+
               return (
-                <th 
-                  key={index} 
-                  onClick={() => key && handleSort(key)}
-                  style={{ cursor: key ? 'pointer' : 'default' }}
+                <th
+                  key={index}
+                  onClick={() => header && handleSort(header as keyof User)}
+                  style={{ cursor: header ? 'pointer' : 'default' }}
                 >
-                  {header} {sortConfig.key === key && key && (
+                  {header} {sortConfig.key === header && header && (
                     <FaSort />
                   )}
                 </th>
@@ -209,7 +154,7 @@ const UserListPage: React.FC = () => {
         <tbody>
           {isLoading ? (
             <tr>
-              <td colSpan={6} className="text-center">
+              <td colSpan={5} className="text-center">
                 <Spinner animation="border" />
               </td>
             </tr>
@@ -221,19 +166,6 @@ const UserListPage: React.FC = () => {
                 <td>{user.name || 'Sin nombre'}</td>
                 <td>{user.role}</td>
                 <td>
-                  {savingPoints[user.id] ? (
-                    <Spinner animation="border" size="sm" />
-                  ) : (
-                    <Form.Control
-                      type="number"
-                      value={editingPoints[user.id] ?? user.penaltyPoints}
-                      onChange={(e) => handlePointsChange(user.id, e.target.value)}
-                      onBlur={() => handlePointsBlur(user)}
-                      style={{ width: '80px' }}
-                    />
-                  )}
-                </td>
-                <td>
                   <Button variant="secondary" size="sm" onClick={() => handleEditClick(user)}>
                     <FaEdit /> Editar Rol
                   </Button>
@@ -242,7 +174,7 @@ const UserListPage: React.FC = () => {
             ))
           ) : (
             <tr>
-              <td colSpan={6} className="text-center">
+              <td colSpan={5} className="text-center">
                 No se encontraron usuarios
               </td>
             </tr>
@@ -250,30 +182,29 @@ const UserListPage: React.FC = () => {
         </tbody>
       </Table>
 
-      <div className="d-flex justify-content-between align-items-center">
-        <span>Total: {totalUsers} usuarios</span>
-        <div>
-          <Button
-            variant="outline-primary"
-            className="me-2"
-            disabled={page === 1}
-            onClick={() => setPage(page - 1)}
-          >
-            Anterior
-          </Button>
-          <span className="mx-2">
-            Página {page} de {totalPages}
-          </span>
-          <Button
-            variant="outline-primary"
-            disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
-          >
-            Siguiente
-          </Button>
-        </div>
+      <div className="d-flex justify-content-between align-items-center"></div>
+      <span>Total: {totalUsers} usuarios</span>
+      <div>
+        <Button
+          variant="outline-primary"
+          className="me-2"
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+        >
+          Anterior
+        </Button>
+        <span className="mx-2">
+          Página {page} de {totalPages}
+        </span>
+        <Button
+          variant="outline-primary"
+          disabled={page === totalPages}
+          onClick={() => setPage(page + 1)}
+        >
+          Siguiente
+        </Button>
       </div>
-
+    </Container>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Editar Rol</Modal.Title>
@@ -304,7 +235,7 @@ const UserListPage: React.FC = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </Container>
+    </>
   );
 };
 
