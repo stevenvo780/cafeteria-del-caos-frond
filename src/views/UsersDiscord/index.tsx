@@ -53,7 +53,7 @@ const UserListPage: React.FC = () => {
         maxPoints: maxPoints ? Number(maxPoints) : undefined,
       };
       console.log(params);
-      const response = await axios.get(process.env.REACT_APP_API_URL + '/discord-users', { params });
+      const response = await api.get('/discord-users', { params });
       console.log(response);
       if (response.data && Array.isArray(response.data.users)) {
         setUsers(response.data.users);
