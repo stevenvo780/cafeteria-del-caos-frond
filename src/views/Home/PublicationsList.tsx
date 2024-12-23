@@ -69,7 +69,7 @@ const PublicationsList: React.FC<PublicationsListProps> = ({
               >
                 <Card.Body>
                   <div className="d-flex justify-content-between">
-                    <Card.Title>{publication.title}</Card.Title>
+                    <Card.Title style={{ color: 'var(--card-title-color)' }}>{publication.title}</Card.Title>
                     {(user?.role === UserRole.ADMIN || user?.role === UserRole.SUPER_ADMIN) && (
                       <div>
                         <FaEdit
@@ -86,16 +86,20 @@ const PublicationsList: React.FC<PublicationsListProps> = ({
                     )}
                   </div>
                   {publication.author && (
-                    <div className="text-muted mb-2 d-flex align-items-center">
+                    <div className="text-muted mb-2 d-flex align-items-center publication-author">
                       <FaUser style={{ marginRight: '8px' }} />
                       {`${publication.author.name} - ${getRoleInSpanish(publication.author.role)}`}
                     </div>
                   )}
                   <div
-                    style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+                    style={{ 
+                      overflow: 'hidden', 
+                      textOverflow: 'ellipsis',
+                      color: 'var(--font-color)'
+                    }}
                     dangerouslySetInnerHTML={{ __html: publication.content }}
                   />
-                  <div className="text-muted mt-2">
+                  <div className="text-muted mt-2 publication-date">
                     {publication.createdAt ? new Date(publication.createdAt).toLocaleDateString() : ''}
                   </div>
                   <ActionButtons

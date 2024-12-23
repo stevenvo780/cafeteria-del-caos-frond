@@ -72,10 +72,12 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
     <>
       {showModal && (
         <Modal show={show} onHide={onHide} size="xl">
-          <Modal.Header closeButton>
-            <Modal.Title>{editingLibrary ? 'Editar Referencia' : 'Crear Referencia'}</Modal.Title>
+          <Modal.Header closeButton className="border-secondary">
+            <Modal.Title style={{ color: 'var(--font-color)' }}>
+              {editingLibrary ? 'Editar Referencia' : 'Crear Referencia'}
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{ backgroundColor: 'var(--card-color)' }}>
             <Form onSubmit={(e) => {
               handleSubmit(e);
               handleClose();
@@ -89,6 +91,7 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       required
+                      className="bg-dark text-light border-secondary"
                     />
                   </Form.Group>
                 </Col>
@@ -101,6 +104,7 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
                         value={visibility}
                         onChange={(e) => setVisibility(e.target.value as LibraryVisibility)}
                         required
+                        className="bg-dark text-light border-secondary"
                       >
                         <option value={LibraryVisibility.GENERAL}>General</option>
                         <option value={LibraryVisibility.USERS}>Usuarios</option>

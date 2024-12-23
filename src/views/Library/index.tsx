@@ -223,14 +223,7 @@ const LibraryPage: React.FC = () => {
           permissionsEditable={permissionsEditable}
         />
         {currentNote && <br />}
-        <Row style={currentNote ? {
-          display: 'flex',
-          justifyContent: 'flex-end',
-          backgroundColor: 'white',
-          borderRadius: '10px',
-          boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-          padding: '8px',
-        } : {}} >
+        <Row className={currentNote ? 'library-detail-container' : ''}>
           {currentNote && (
             <>
               <Col xs={12} md={12}>
@@ -240,7 +233,7 @@ const LibraryPage: React.FC = () => {
                 )}
                 <div dangerouslySetInnerHTML={{ __html: currentNote.description }} />
               </Col>
-              <Col xs={12} md={12} className="text-left" style={{ display: 'flex', justifyContent: 'flex-init' }}>
+              <Col xs={12} md={12} className="text-left d-flex">
                 <ActionButtons
                   userLike={likesData[currentNote.id]?.userLike}
                   likesCount={likesData[currentNote.id]?.likes || 0}

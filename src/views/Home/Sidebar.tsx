@@ -40,7 +40,7 @@ const Sidebar: React.FC = () => {
 
   const fetchGuildMemberCount = async () => {
     try {
-      const response = await axios.get<number>('/discord/guild/members');
+      const response = await axios.get<number>(process.env.REACT_APP_API_URL + '/discord/guild/members');
       setGuildMemberCount(response.data);
     } catch (error) {
       dispatch(addNotification({ message: 'Error al obtener la cantidad de miembros de Discord', color: 'danger' }));
