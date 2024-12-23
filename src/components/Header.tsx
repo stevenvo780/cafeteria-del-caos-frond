@@ -38,9 +38,9 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <Navbar expand="lg" className="navbar-light" style={{
+      <Navbar expand="lg" className="navbar-dark" style={{
         padding: '0px',
-        backgroundColor: "var(--white-color)",
+        backgroundColor: "var(--navbar-color)",
         borderBottom: "1px solid var(--border-color)"
       }}>
         <Container fluid className="pl-4 pr-4">
@@ -55,7 +55,8 @@ const Header: React.FC = () => {
               style={{
                 fontFamily: "Montaga",
                 fontSize: "1.5rem",
-                color: "var(--primary-hover)"
+                color: "var(--font-color)",
+                fontWeight: "bold"
               }}
               className="ml-2"
             >
@@ -92,8 +93,22 @@ const Header: React.FC = () => {
         </Container>
       </Navbar>
 
-      <Offcanvas show={showSidebar} onHide={handleToggleSidebar} placement="end">
-        <Offcanvas.Header closeButton>
+      <Offcanvas 
+        show={showSidebar} 
+        onHide={handleToggleSidebar} 
+        placement="end"
+        style={{
+          backgroundColor: "var(--card-color)",
+          color: "var(--font-color)"
+        }}
+      >
+        <Offcanvas.Header 
+          closeButton 
+          style={{
+            borderBottom: "1px solid var(--border-color)",
+            color: "var(--font-color)"
+          }}
+        >
           <Offcanvas.Title>Menú</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>

@@ -1,55 +1,58 @@
 :root {
-  --font-color: #2C2C2C;
-  --bg-color: #F8F9FA;
+  --font-color: #FFFFFF;
+  --bg-color: #1A1A1A;
   --white-color: #FFFFFF;
-  --border-color: #ffffff;
+  --border-color: #333333;
 
-  --primary-color: #7A3E2E;
-  --primary-hover: #5A2F23;
-  --primary-border: #7A3E2E;
+  /* Café punk palette */
+  --primary-color: #8B4513;
+  --primary-hover: #A0522D;
+  --primary-border: #8B4513;
   --primary-text: #FFFFFF;
 
-  --secondary-color: #C4A99D;
-  --secondary-hover: #A68A7F;
-  --secondary-border: #C4A99D;
-  --secondary-text: #2C2C2C;
+  --secondary-color: #4A4A4A;
+  --secondary-hover: #5A5A5A;
+  --secondary-border: #4A4A4A;
+  --secondary-text: #FFFFFF;
 
-  --info-color: #943D30;
-  --info-hover: #6E2D22;
-  --info-border: #6E2D22;
-  --info-text: #FFFFFF;
+  --info-color: #CD853F;
+  --info-hover: #DEB887;
+  --info-border: #CD853F;
+  --info-text: #1A1A1A;
 
-  --success-color: #4B6E2A;
-  --success-hover: #374F1F;
-  --success-border: #4B6E2A;
+  --success-color: #556B2F;
+  --success-hover: #6B8E23;
+  --success-border: #556B2F;
   --success-text: #FFFFFF;
 
-  --warning-color: #A65B00;
-  --warning-hover: #7C4300;
-  --warning-border: #A65B00;
-  --warning-text: #FFFFFF;
+  --warning-color: #DAA520;
+  --warning-hover: #B8860B;
+  --warning-border: #DAA520;
+  --warning-text: #1A1A1A;
 
-  --danger-color: #8B1E1E;
-  --danger-hover: #661717;
-  --danger-border: #8B1E1E;
+  --danger-color: #8B0000;
+  --danger-hover: #A52A2A;
+  --danger-border: #8B0000;
   --danger-text: #FFFFFF;
 
-  --link-color: #7A3E2E;
-  --link-hover: #5A2F23;
-  --link-border: #5A2F23;
+  --link-color: #CD853F;
+  --link-hover: #DEB887;
+  --link-border: #CD853F;
   --link-text: #FFFFFF;
 
   --outline-color: var(--secondary-color);
 
-  --card-color: #FFFFFF;
-  --card-hover: #F7EFEA;
-  --card-border: #C4A99D;
-  --card-text: #2C2C2C;
+  --card-color: #2A2A2A;
+  --card-hover: #333333;
+  --card-border: #4A4A4A;
+  --card-text: #FFFFFF;
 
-  --discord-color: #5865F0;
+  --discord-color: #7289DA;
   --discord-text: #FFFFFF;
 
-  --online-color: #3E802F;
+  --online-color: #43B581;
+
+  --navbar-color: #1F1F1F; /* Más oscuro que card-color para distinguir */
 }
 
 
@@ -303,7 +306,7 @@ a:focus,
   border: 1px solid var(--card-color);
   border-radius: 12px;
   background-color: var(--card-color);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .card-header {
@@ -328,7 +331,7 @@ textarea,
 select {
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  background-color: var(--white-color);
+  background-color: var(--card-color);
   color: var(--font-color);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -343,6 +346,7 @@ select:focus {
 .table {
   border-collapse: collapse;
   width: 100%;
+  color: var(--font-color);
 }
 
 .table th,
@@ -358,7 +362,7 @@ select:focus {
 }
 
 .table tbody tr:nth-child(even) {
-  background-color: var(--secondary-color);
+  background-color: var(--card-hover);
 }
 
 .table tbody tr:hover,
@@ -382,7 +386,7 @@ select:focus {
 
 .alert-success {
   background-color: var(--success-color);
-  border-color: var(--success-border);
+  border-color: var (--success-border);
   color: var(--success-text);
 }
 
@@ -446,14 +450,14 @@ select:focus {
 }
 
 .card-events-home {
-  background-color: var(--primary-color);
+  background-color: var(--card-color);
   border-color: var(--primary-border);
   border-radius: 10px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
 }
 
 .card-events-home .card-header {
-  background-color: var(--primary-color);
+  background-color: var(--card-color);
   color: var(--primary-text);
   font-weight: 600;
   border-bottom: 1px solid var(--secondary-border);
