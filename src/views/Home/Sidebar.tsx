@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../utils/axios';
+import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { addNotification } from '../../redux/ui';
 import { Events, Library } from '../../utils/types';
@@ -39,7 +40,7 @@ const Sidebar: React.FC = () => {
 
   const fetchGuildMemberCount = async () => {
     try {
-      const response = await api.get<number>('/discord/guild/members');
+      const response = await axios.get<number>('/discord/guild/members');
       setGuildMemberCount(response.data);
     } catch (error) {
       dispatch(addNotification({ message: 'Error al obtener la cantidad de miembros de Discord', color: 'danger' }));

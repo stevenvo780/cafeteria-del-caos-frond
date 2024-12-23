@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Container, Row, Col, Form, Spinner, InputGroup } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addNotification } from '../../redux/ui';
-import axios from '../../utils/axios';
+import api from '../../utils/axios';
+import axios from 'axios';
 import { FaSearch, FaSort } from 'react-icons/fa';
 
 interface DiscordRole {
@@ -114,7 +115,7 @@ const UserListPage: React.FC = () => {
 
     setSavingPoints(prev => ({ ...prev, [user.id]: true }));
     try {
-      await axios.patch(`/user/${user.id}/points`, { points: parseInt(newPoints) });
+      await api.patch(`/user/${user.id}/points`, { points: parseInt(newPoints) });
       setUsers(prev => prev.map(u => 
         u.id === user.id ? { ...u, penaltyPoints: parseInt(newPoints) } : u
       ));
