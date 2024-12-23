@@ -20,7 +20,7 @@ const LatestNotes: React.FC<LatestNotesProps> = ({ notes }) => {
     <div>
       <h4 className="mt-4">Últimas Notas</h4>
       {notes.length > 0 ? (
-        notes.map((note) => (
+        notes?.map((note) => (
           <Card
             className="mb-3"
             key={note.id}
