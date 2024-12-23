@@ -53,7 +53,7 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
       {currentNote && (
         <Col xs={4} md={10}>
           <Button variant="secondary" onClick={onGoBack} className="p-0">
-            <IoIosArrowBack size={30} />
+            <IoIosArrowBack size={30} color='var(--white-color)' />
           </Button>
         </Col>
       )}
@@ -77,7 +77,7 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
               style={{
                 cursor: 'pointer',
                 marginInline: 8,
-                color: 'var(--secondary-color)',
+                color: 'var(--white-color)',
               }}
             />
             {currentNote && (
@@ -88,7 +88,7 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
                   style={{
                     cursor: 'pointer',
                     marginInline: 8,
-                    color: 'var(--secondary-color)',
+                    color: 'var(--white-color)',
                   }}
                 />
                 <FaTrash
@@ -97,7 +97,7 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({
                   style={{
                     cursor: 'pointer',
                     marginInline: 8,
-                    color: 'var(--secondary-color)',
+                    color: 'var(--white-color)',
                   }}
                 />
               </>
