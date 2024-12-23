@@ -21,7 +21,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ events }) => {
     <div>
       <h4>Eventos importantes</h4>
       {events.length > 0 ? (
-        events.map((event) => (
+        events?.map((event) => (
           <Card
             className="mb-3 gradient-card"
             key={event.id}
