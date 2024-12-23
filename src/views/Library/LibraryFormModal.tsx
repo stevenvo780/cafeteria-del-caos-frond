@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
+import Select from 'react-select';
 import { TemplateType } from '../../utils/types';
 import { Library, CreateLibraryDto, UpdateLibraryDto, LibraryVisibility } from '../../utils/types';
 import CustomEditor from '../../components/CustomEditor';
@@ -7,12 +8,19 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { UserRole } from '../../utils/types';
 
+interface LibraryReference {
+  id: number;
+  title: string;
+}
+
 interface LibraryFormModalProps {
   show: boolean;
   onHide: () => void;
   onSubmit: (libraryData: CreateLibraryDto | UpdateLibraryDto) => void;
   editingLibrary: Library | null;
   showModal: boolean;
+  availableParents: LibraryReference[];
+  currentNote?: Library | null;
 }
 
 const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
@@ -21,6 +29,8 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
   onSubmit,
   editingLibrary,
   showModal,
+  availableParents = [],
+  currentNote,
 }) => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -37,10 +47,10 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
     } else {
       setTitle('');
       setDescription('');
-      setParentNoteId(undefined);
+      setParentNoteId(currentNote?.id); // Establecer el padre por defecto
       setVisibility(LibraryVisibility.GENERAL);
     }
-  }, [editingLibrary]);
+  }, [editingLibrary, currentNote]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -67,6 +77,65 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
       editorRef.current.remove();
     }
   }
+
+  const parentOptions = availableParents.map(parent => ({
+    value: parent.id,
+    label: parent.title
+  }));
+
+  const customSelectStyles = {
+    control: (base: any) => ({
+      ...base,
+      backgroundColor: 'var(--card-color)',
+      borderColor: 'var(--secondary)',
+      minHeight: '38px',
+      color: 'var(--font-color)',
+      '&:hover': {
+        borderColor: 'var(--primary)'
+      }
+    }),
+    menu: (base: any) => ({
+      ...base,
+      backgroundColor: 'var(--card-color)',
+      zIndex: 9999
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      backgroundColor: 'var(--card-color)',
+      maxHeight: '200px'
+    }),
+    option: (base: any, state: { isFocused: boolean; isSelected: boolean }) => ({
+      ...base,
+      backgroundColor: state.isSelected 
+        ? 'var(--primary-color)' 
+        : state.isFocused 
+          ? 'var(--secondary-color)' 
+          : 'var(--card-color)',
+      color: 'var(--font-color)',
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: 'var(--secondary-color)'
+      }
+    }),
+    singleValue: (base: any) => ({
+      ...base,
+      color: 'var(--font-color)'
+    }),
+    input: (base: any) => ({
+      ...base,
+      color: 'var(--font-color)'
+    }),
+    placeholder: (base: any) => ({
+      ...base,
+      color: 'var(--font-color)',
+      opacity: 0.7
+    })
+  };
+
+  const currentParentOption = parentNoteId ? {
+    value: parentNoteId,
+    label: availableParents.find(p => p.id === parentNoteId)?.title || 'Nota padre'
+  } : null;
 
   return (
     <>
@@ -113,6 +182,21 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
                     </Form.Group>
                   </Col>
                 )}
+                <Col md={12}>
+                  <Form.Group controlId="formLibraryParent">
+                    <Form.Label>Padre</Form.Label>
+                    <Select
+                      value={currentParentOption}
+                      onChange={(option) => setParentNoteId(option?.value)}
+                      options={parentOptions}
+                      isClearable
+                      isSearchable
+                      placeholder="Buscar o seleccionar padre..."
+                      styles={customSelectStyles}
+                      noOptionsMessage={() => "No se encontraron notas"}
+                    />
+                  </Form.Group>
+                </Col>
               </Row>
               <br />
               <Form.Group controlId="formLibraryDescription">
