@@ -36,6 +36,7 @@ const CustomEditor: React.FC<CustomEditorProps> = ({
     menubar: false,
     plugins: ['link', 'fullscreen', 'help', 'save', 'emoticons'],
     content_css: [
+      'dark',
       'bootstrap/dist/css/bootstrap.min.css',
     ],
     toolbar:
@@ -68,12 +69,29 @@ const CustomEditor: React.FC<CustomEditorProps> = ({
         },
       });
     },
-    content_style: `body { 
-      font-family:Helvetica,Arial,sans-serif; 
-      font-size:14px; 
-      color: ${getCSSVariable('--font-color')}; 
-      background-color: ${getCSSVariable('--white-color')}; 
-    }`,
+    skin: 'oxide-dark',
+    content_style: `
+      body { 
+        font-family: Helvetica, Arial, sans-serif; 
+        font-size: 14px; 
+        color: ${getCSSVariable('--font-color')}; 
+        background-color: ${getCSSVariable('--card-color')}; 
+      }
+      .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+        color: ${getCSSVariable('--font-color')}; 
+        opacity: 0.6;
+      }
+      .mce-content-body img {
+        max-width: 100%;
+        height: auto;
+      }
+      .mce-content-body a {
+        color: ${getCSSVariable('--link-color')};
+      }
+      .mce-content-body a:hover {
+        color: ${getCSSVariable('--link-hover')};
+      }
+    `,
     color_map: colorPalette.flatMap((color) => [color, color]),
     images_upload_handler: (
       blobInfo: BlobInfo,
@@ -109,7 +127,7 @@ const CustomEditor: React.FC<CustomEditorProps> = ({
             borderRadius: '4px',
             height: `${height}px`,
             overflow: 'auto',
-            backgroundColor: getCSSVariable('--white-color'),
+            backgroundColor: getCSSVariable('--card-color'),
             color: getCSSVariable('--font-color'),
           }}
         />

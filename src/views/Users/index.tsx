@@ -117,94 +117,101 @@ const UserListPage: React.FC = () => {
   const totalPages = Math.ceil(totalUsers / limit);
 
   return (
-    <><Container className="mt-5">
-      <Row className="mb-4">
-        <Col md={12}>
-          <InputGroup>
-            <InputGroup.Text>
-              <FaSearch />
-            </InputGroup.Text>
-            <Form.Control
-              placeholder="Buscar por nombre o email"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} />
-          </InputGroup>
-        </Col>
-      </Row>
+    <Container className="mt-5">
+      <div className="table-header">
+        <Row className="mb-4">
+          <Col md={12}>
+            <InputGroup>
+              <InputGroup.Text>
+                <FaSearch />
+              </InputGroup.Text>
+              <Form.Control
+                placeholder="Buscar por nombre o email"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </InputGroup>
+          </Col>
+        </Row>
+      </div>
 
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            {['ID', 'Correo', 'Nombre', 'Rol', 'Acciones'].map((header, index) => {
-
-              return (
-                <th
-                  key={index}
-                  onClick={() => header && handleSort(header as keyof User)}
-                  style={{ cursor: header ? 'pointer' : 'default' }}
-                >
-                  {header} {sortConfig.key === header && header && (
-                    <FaSort />
-                  )}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
+      <div className="table-responsive">
+        <Table hover>
+          <thead>
             <tr>
-              <td colSpan={5} className="text-center">
-                <Spinner animation="border" />
-              </td>
+              {['ID', 'Correo', 'Nombre', 'Rol', 'Acciones'].map((header, index) => {
+
+                return (
+                  <th
+                    key={index}
+                    onClick={() => header && handleSort(header as keyof User)}
+                    style={{ cursor: header ? 'pointer' : 'default' }}
+                  >
+                    {header} {sortConfig.key === header && header && (
+                      <FaSort />
+                    )}
+                  </th>
+                );
+              })}
             </tr>
-          ) : sortedUsers.length > 0 ? (
-            sortedUsers.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.email}</td>
-                <td>{user.name || 'Sin nombre'}</td>
-                <td>{user.role}</td>
-                <td>
-                  <Button variant="secondary" size="sm" onClick={() => handleEditClick(user)}>
-                    <FaEdit /> Editar Rol
-                  </Button>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <td colSpan={5} className="text-center">
+                  <Spinner animation="border" />
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={5} className="text-center">
-                No se encontraron usuarios
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
-
-      <div className="d-flex justify-content-between align-items-center"></div>
-      <span>Total: {totalUsers} usuarios</span>
-      <div>
-        <Button
-          variant="outline-primary"
-          className="me-2"
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-        >
-          Anterior
-        </Button>
-        <span className="mx-2">
-          Página {page} de {totalPages}
-        </span>
-        <Button
-          variant="outline-primary"
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
-        >
-          Siguiente
-        </Button>
+            ) : sortedUsers.length > 0 ? (
+              sortedUsers.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.email}</td>
+                  <td>{user.name || 'Sin nombre'}</td>
+                  <td>{user.role}</td>
+                  <td>
+                    <Button variant="secondary" size="sm" onClick={() => handleEditClick(user)}>
+                      <FaEdit /> Editar Rol
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="text-center">
+                  No se encontraron usuarios
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
       </div>
-    </Container>
+
+      <div className="table-footer">
+        <div className="d-flex justify-content-between align-items-center">
+          <span>Total: {totalUsers} usuarios</span>
+          <div>
+            <Button
+              variant="outline-primary"
+              className="me-2"
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+            >
+              Anterior
+            </Button>
+            <span className="mx-2">
+              Página {page} de {totalPages}
+            </span>
+            <Button
+              variant="outline-primary"
+              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+            >
+              Siguiente
+            </Button>
+          </div>
+        </div>
+      </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Editar Rol</Modal.Title>
@@ -235,7 +242,7 @@ const UserListPage: React.FC = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </Container>
   );
 };
 

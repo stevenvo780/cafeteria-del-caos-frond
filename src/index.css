@@ -343,32 +343,118 @@ select:focus {
   box-shadow: 0 0 0 0.2rem rgba(141, 110, 99, 0.25);
 }
 
+/* Estilos mejorados para tablas */
 .table {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   width: 100%;
   color: var(--font-color);
+  background-color: var(--card-color);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
 .table th,
 .table td {
   border: 1px solid var(--border-color);
-  padding: 8px;
-  text-align: left;
+  padding: 12px;
+  background-color: var(--card-color);
+  color: var(--font-color) !important; /* Forzar color blanco */
 }
 
-.table thead {
-  background-color: var(--primary-color);
-  color: var(--primary-text);
+.table thead th {
+  background-color: var(--navbar-color);
+  color: var(--font-color);
+  font-weight: bold;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+  color: var(--font-color);
 }
 
 .table tbody tr:nth-child(even) {
   background-color: var(--card-hover);
+  color: var(--font-color);
 }
 
-.table tbody tr:hover,
-.table tbody tr:focus {
-  background-color: var(--primary-hover);
-  color: var(--primary-text);
+.table tbody tr:hover {
+  background-color: var(--secondary-color);
+  color: var(--font-color) !important;
+}
+
+/* Estilos específicos para inputs y textos dentro de las tablas */
+.table .form-control,
+.table input,
+.table select,
+.table textarea {
+  background-color: var(--card-hover);
+  border-color: var(--border-color);
+  color: var(--font-color);
+}
+
+.table .form-control:focus {
+  background-color: var(--navbar-color);
+  border-color: var(--primary-color);
+  color: var(--font-color);
+}
+
+/* Asegurar que los textos dentro de la tabla sean siempre visibles */
+.table p,
+.table span,
+.table div,
+.table a {
+  color: var(--font-color) !important;
+}
+
+/* Asegurar que el texto en las celdas de la tabla sea visible */
+.table td[data-label],
+.table td:not([data-label]) {
+  color: var(--font-color) !important;
+}
+
+/* Estilos para inputs dentro de tablas */
+.table .form-control {
+  background-color: var(--card-hover);
+  border-color: var(--border-color);
+  color: var(--font-color);
+}
+
+.table .form-control:focus {
+  background-color: var(--card-hover);
+  border-color: var(--primary-color);
+  color: var(--font-color);
+}
+
+/* Estilos para los botones dentro de tablas */
+.table .btn {
+  margin: 2px;
+  padding: 4px 8px;
+}
+
+/* Contenedor de tabla con sombra y bordes redondeados */
+.table-responsive {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+}
+
+/* Estilos para el encabezado de la tabla */
+.table-header {
+  background-color: var(--navbar-color);
+  padding: 15px;
+  border-radius: 12px 12px 0 0;
+  margin-bottom: -1px;
+}
+
+/* Estilos para el footer de la tabla */
+.table-footer {
+  background-color: var(--navbar-color);
+  padding: 15px;
+  border-radius: 0 0 12px 12px;
+  margin-top: -1px;
 }
 
 .alert {
@@ -473,4 +559,113 @@ select:focus {
 
 .text-info {
   color: var(--info-color);
+}
+
+/* Estilos para modales */
+.modal-content {
+  background-color: var(--card-color);
+  color: var(--font-color);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+.modal-header .btn-close {
+  color: var(--font-color);
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Mejoras en los inputs */
+.form-control {
+  background-color: var(--card-color);
+  border-color: var(--border-color);
+  color: var(--font-color);
+}
+
+.form-control:focus {
+  background-color: var(--card-color);
+  border-color: var(--primary-color);
+  color: var(--font-color);
+  box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+}
+
+.form-control::placeholder {
+  color: var(--font-color);
+  opacity: 0.7;
+}
+
+/* Estilos para TinyMCE */
+.tox.tox-tinymce {
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.tox .tox-toolbar,
+.tox .tox-toolbar__primary,
+.tox .tox-toolbar__overflow {
+  background-color: var(--card-color) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.tox .tox-tbtn {
+  color: var(--font-color) !important;
+}
+
+.tox .tox-tbtn:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+.tox .tox-edit-area__iframe {
+  background-color: var(--card-color) !important;
+}
+
+.tox .tox-statusbar {
+  background-color: var(--card-color) !important;
+  border-top: 1px solid var(--border-color) !important;
+  color: var(--font-color) !important;
+}
+
+/* Estilos para el menú desplegable de TinyMCE */
+.tox .tox-menu {
+  background-color: var(--card-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.tox .tox-collection__item {
+  color: var(--font-color) !important;
+}
+
+.tox .tox-collection__item--active {
+  background-color: var(--primary-color) !important;
+}
+
+.tox .tox-collection__item:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+/* Estilos para los diálogos de TinyMCE */
+.tox .tox-dialog {
+  background-color: var(--card-color) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--font-color) !important;
+}
+
+.tox .tox-dialog__header {
+  background-color: var(--card-color) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.tox .tox-dialog__footer {
+  background-color: var(--card-color) !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+
+.tox .tox-dialog__body-content {
+  color: var(--font-color) !important;
 }

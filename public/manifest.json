@@ -1,9 +1,9 @@
 {
   "short_name": "Cafeteria del Caos",
-  "name": "Cafeteria del Caos - Comunidad Intelectual",
+  "name": "LA CAFETERIA DEL CAOS - Arena de Debates",
   "icons": [
     {
-      "src": "favicon.jpg",
+      "src": "favicon.webp",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
@@ -22,6 +22,6 @@
   "display": "standalone",
   "theme_color": "#7B3F00",
   "background_color": "#ffffff",
-  "description": "Cafeteria del Caos es un espacio inclusivo para debates, literatura, filosofía, ciencia y tecnología. Promueve el aprendizaje, el pensamiento crítico y el desarrollo intelectual.",
+  "description": "LA CAFETERIA DEL CAOS es tu arena para debates intensos y confrontación intelectual. Política, filosofía y debates improvisados con una comunidad activa y un Staff comprometido. ¡Únete a la batalla de ideas!",
   "lang": "es"
 }

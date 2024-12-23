@@ -85,22 +85,30 @@ const LoginPage: React.FC = () => {
   return (
     <Container>
       <Row>
-        <h1 className="d-flex align-items-center justify-content-center" style={{ fontFamily: "Montaga", fontSize: "3rem", position: "relative", top: "2vw", }}>Cafeteria del caos</h1>
+        <h1 className="d-flex align-items-center justify-content-center" 
+            style={{ 
+              fontFamily: "Montaga", 
+              fontSize: "3rem", 
+              marginTop: "2vw",
+              color: "var(--font-color)"
+            }}>
+          Cafeteria del caos
+        </h1>
         <Col sm="6" className="d-flex align-items-center justify-content-center" style={{ marginTop: "5%" }}>
           <Image
-            src="/images/login.png"
+            src="/images/login.webp"
             alt="Banner"
             fluid
             style={{
               maxHeight: '400px',
               objectFit: 'cover',
               borderRadius: '10px',
-              boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.1)',
+              boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.5)'
             }}
           />
         </Col>
         <Col sm="6" className="order-first order-md-last d-flex align-items-center justify-content-center" style={{ marginTop: "5%" }}>
-          <Card style={{ width: '100%', padding: '20px', boxShadow: '0px 0px 20px 0px rgba(0,0,0,0.1)' }}>
+          <Card style={{ width: '100%', padding: '20px' }}>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail">
@@ -121,42 +129,26 @@ const LoginPage: React.FC = () => {
                   />
                 </Form.Group>
                 <br />
-                <Button style={{ width: "100%", marginBottom: 10 }} variant="primary" type="submit" disabled={isLoading}>
+                <Button className="w-100 mb-2" variant="primary" type="submit" disabled={isLoading}>
                   {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
                 </Button>
                 <Button
-                  style={{
-                    border: 0,
-                    backgroundColor: "var(--white-color)",
-                    color: "var(--font-color)",
-                    width: "100%",
-                    marginBottom: 20
-                  }}
-                  size='sm'
-                  variant="secondary"
+                  className="w-100 mb-3"
+                  variant="link"
                   onClick={() => setShowResetModal(true)}
                 >
                   ¿Olvidaste tu contraseña?
                 </Button>
                 <Button
-                  style={{
-                    width: "100%",
-                    marginBottom: 10
-                  }}
+                  className="w-100 mb-2"
                   variant="secondary"
                   onClick={handleRegister}
                 >
                   Registrarse
                 </Button>
-
                 <Button
-                  style={{
-                    backgroundColor: "var(--white-color)",
-                    color: "var(--font-color)",
-                    width: "100%",
-                    marginBottom: 10
-                  }}
-                  variant="secondary"
+                  className="w-100"
+                  variant="outline-secondary"
                   onClick={signInWithGoogle}
                   disabled={isLoading}
                 >
@@ -188,7 +180,7 @@ const LoginPage: React.FC = () => {
             Cancelar
           </Button>
           <Button variant="primary" onClick={handleResetPassword} disabled={isLoading}>
-            {isLoading ? 'Enviando...' : 'Enviar correo de restablecimiento'}
+            {isLoading ? 'Enviando...' : 'Enviar correo'}
           </Button>
         </Modal.Footer>
       </Modal>
