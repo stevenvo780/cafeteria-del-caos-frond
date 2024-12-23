@@ -41,14 +41,23 @@ const UserListPage: React.FC = () => {
         limit,
         offset,
         search: searchTerm || undefined,
-        minPoints: minPoints || undefined,
-        maxPoints: maxPoints || undefined,
+        minPoints: minPoints ? Number(minPoints) : undefined,
+        maxPoints: maxPoints ? Number(maxPoints) : undefined,
       };
-
-      const response = await axios.get('/user/filtered', { params });
-      setUsers(response.data.users);
-      setTotalUsers(response.data.total);
+      console.log(params);
+      const response = await axios.get('/user', { params });
+      console.log(response);
+      if (response.data && Array.isArray(response.data.users)) {
+        setUsers(response.data.users);
+        setTotalUsers(response.data.total || 0);
+      } else {
+        setUsers([]);
+        setTotalUsers(0);
+        dispatch(addNotification({ message: 'Formato de respuesta inválido', color: 'warning' }));
+      }
     } catch (error) {
+      setUsers([]);
+      setTotalUsers(0);
       dispatch(addNotification({ message: 'Error al cargar usuarios', color: 'danger' }));
     } finally {
       setIsLoading(false);
@@ -66,19 +75,25 @@ const UserListPage: React.FC = () => {
     }));
   };
 
-  const sortedUsers = [...users].sort((a, b) => {
-    if (!sortConfig.key) return 0;
-    const direction = sortConfig.direction === 'asc' ? 1 : -1;
+  const sortedUsers = React.useMemo(() => {
+    if (!Array.isArray(users)) return [];
     
-    const valueA = a[sortConfig.key];
-    const valueB = b[sortConfig.key];
-    
-    if (valueA === null) return 1;
-    if (valueB === null) return -1;
-    if (valueA === valueB) return 0;
-    
-    return valueA > valueB ? direction : -direction;
-  });
+    return [...users].sort((a, b) => {
+      if (!sortConfig.key) return 0;
+      const direction = sortConfig.direction === 'asc' ? 1 : -1;
+      
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+      
+      if (valueA === null) return 1;
+      if (valueB === null) return -1;
+      if (valueA === valueB) return 0;
+      
+      return valueA > valueB ? direction : -direction;
+    });
+  }, [users, sortConfig]);
+
+  console.log(sortedUsers);
 
   const handleEditClick = (user: User) => {
     setSelectedUser(user);
@@ -171,7 +186,7 @@ const UserListPage: React.FC = () => {
                 <Spinner animation="border" />
               </td>
             </tr>
-          ) : (
+          ) : sortedUsers.length > 0 ? (
             sortedUsers.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
@@ -186,6 +201,12 @@ const UserListPage: React.FC = () => {
                 </td>
               </tr>
             ))
+          ) : (
+            <tr>
+              <td colSpan={6} className="text-center">
+                No se encontraron usuarios
+              </td>
+            </tr>
           )}
         </tbody>
       </Table>
