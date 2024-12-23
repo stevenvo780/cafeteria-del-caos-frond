@@ -1,40 +1,40 @@
 :root {
-  --font-color: #2C2C2C; /* Negro suave */
-  --bg-color: #F5EDE4; /* Fondo cálido claro */
+  --font-color: #2C2C2C;
+  --bg-color: #F8F9FA;
   --white-color: #FFFFFF;
-  --border-color: #ffffff; /* Marrón claro para bordes */
+  --border-color: #ffffff;
 
-  --primary-color: #7A3E2E; /* Marrón rojizo */
+  --primary-color: #7A3E2E;
   --primary-hover: #5A2F23;
   --primary-border: #7A3E2E;
   --primary-text: #FFFFFF;
 
-  --secondary-color: #C4A99D; /* Marrón claro */
+  --secondary-color: #C4A99D;
   --secondary-hover: #A68A7F;
   --secondary-border: #C4A99D;
   --secondary-text: #2C2C2C;
 
-  --info-color: #943D30; /* Rojo ladrillo */
+  --info-color: #943D30;
   --info-hover: #6E2D22;
   --info-border: #6E2D22;
   --info-text: #FFFFFF;
 
-  --success-color: #4B6E2A; /* Verde oliva oscuro */
+  --success-color: #4B6E2A;
   --success-hover: #374F1F;
   --success-border: #4B6E2A;
   --success-text: #FFFFFF;
 
-  --warning-color: #A65B00; /* Dorado oscuro */
+  --warning-color: #A65B00;
   --warning-hover: #7C4300;
   --warning-border: #A65B00;
   --warning-text: #FFFFFF;
 
-  --danger-color: #8B1E1E; /* Rojo profundo */
+  --danger-color: #8B1E1E;
   --danger-hover: #661717;
   --danger-border: #8B1E1E;
   --danger-text: #FFFFFF;
 
-  --link-color: #7A3E2E; /* Marrón rojizo */
+  --link-color: #7A3E2E;
   --link-hover: #5A2F23;
   --link-border: #5A2F23;
   --link-text: #FFFFFF;
@@ -42,14 +42,14 @@
   --outline-color: var(--secondary-color);
 
   --card-color: #FFFFFF;
-  --card-hover: #F7EFEA; /* Fondo cálido suave */
+  --card-hover: #F7EFEA;
   --card-border: #C4A99D;
   --card-text: #2C2C2C;
 
-  --discord-color: #5865F0; /* Azul Discord */
+  --discord-color: #5865F0;
   --discord-text: #FFFFFF;
 
-  --online-color: #3E802F; /* Verde bosque */
+  --online-color: #3E802F;
 }
 
 

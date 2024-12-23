@@ -6,6 +6,7 @@
     { "path": "/events", "element": "Events", "name": "Eventos", "viewHeader": true, "hidden": false },
     { "path": "/events/:id", "element": "EventDetail", "name": "Detalle de Evento", "viewHeader": false, "hidden": false },
     { "path": "/normativa", "element": "Normativa", "name": "Normativa", "viewHeader": true, "hidden": false },
+    { "path": "/debates", "element": "Debates", "name": "Debates", "viewHeader": true, "hidden": false },
     { "path": "/login", "element": "Login", "name": "Iniciar Sesión", "viewHeader": false, "hidden": false },
     { "path": "/register", "element": "Register", "name": "Registrarse", "viewHeader": false, "hidden": false },
     { "path": "/about", "element": "About", "name": "Nosotros", "viewHeader": true, "hidden": false },
