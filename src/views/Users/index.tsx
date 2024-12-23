@@ -32,6 +32,8 @@ const UserListPage: React.FC = () => {
   const [totalUsers, setTotalUsers] = useState(0);
   const limit = 10;
   const dispatch = useDispatch();
+  const [editingPoints, setEditingPoints] = useState<{ [key: string]: string }>({});
+  const [savingPoints, setSavingPoints] = useState<{ [key: string]: boolean }>({});
 
   const fetchUsers = async () => {
     try {
@@ -119,6 +121,31 @@ const UserListPage: React.FC = () => {
     }
   };
 
+  const handlePointsChange = (userId: string, value: string) => {
+    setEditingPoints(prev => ({ ...prev, [userId]: value }));
+  };
+
+  const handlePointsBlur = async (user: User) => {
+    const newPoints = editingPoints[user.id];
+    if (newPoints === undefined || newPoints === user.penaltyPoints.toString()) {
+      return;
+    }
+
+    setSavingPoints(prev => ({ ...prev, [user.id]: true }));
+    try {
+      await axios.patch(`/user/${user.id}/points`, { points: parseInt(newPoints) });
+      setUsers(prev => prev.map(u => 
+        u.id === user.id ? { ...u, penaltyPoints: parseInt(newPoints) } : u
+      ));
+      dispatch(addNotification({ message: 'Puntos actualizados correctamente', color: 'success' }));
+    } catch (error) {
+      dispatch(addNotification({ message: 'Error al actualizar los puntos', color: 'danger' }));
+      setEditingPoints(prev => ({ ...prev, [user.id]: user.penaltyPoints.toString() }));
+    } finally {
+      setSavingPoints(prev => ({ ...prev, [user.id]: false }));
+    }
+  };
+
   const totalPages = Math.ceil(totalUsers / limit);
 
   return (
@@ -193,7 +220,19 @@ const UserListPage: React.FC = () => {
                 <td>{user.email}</td>
                 <td>{user.name || 'Sin nombre'}</td>
                 <td>{user.role}</td>
-                <td>{user.penaltyPoints}</td>
+                <td>
+                  {savingPoints[user.id] ? (
+                    <Spinner animation="border" size="sm" />
+                  ) : (
+                    <Form.Control
+                      type="number"
+                      value={editingPoints[user.id] ?? user.penaltyPoints}
+                      onChange={(e) => handlePointsChange(user.id, e.target.value)}
+                      onBlur={() => handlePointsBlur(user)}
+                      style={{ width: '80px' }}
+                    />
+                  )}
+                </td>
                 <td>
                   <Button variant="secondary" size="sm" onClick={() => handleEditClick(user)}>
                     <FaEdit /> Editar Rol
