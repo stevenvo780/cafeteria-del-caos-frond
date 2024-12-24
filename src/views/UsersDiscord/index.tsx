@@ -248,9 +248,6 @@ const UserListPage: React.FC = () => {
           <tr>
             <th>ID</th>
             <th>Usuario</th>
-            <th>Apodo</th>
-            <th>Email</th>
-            <th>Nombre</th>
             <th>Roles</th>
             <th>Puntos</th>
             <th>Monedas</th>
@@ -269,9 +266,6 @@ const UserListPage: React.FC = () => {
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.username}</td>
-                <td>{user.nickname || 'Sin apodo'}</td>
-                <td>{user.email}</td>
-                <td>{user.name || 'Sin nombre'}</td>
                 <td>
                   <Button
                     variant="info"
