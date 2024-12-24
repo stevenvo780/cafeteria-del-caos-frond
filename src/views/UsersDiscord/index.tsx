@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Container, Row, Col, Form, Spinner, InputGroup, Modal } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Form, Spinner, InputGroup, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addNotification } from '../../redux/ui';
 import api from '../../utils/axios';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaCoins, FaStar, FaExclamationTriangle } from 'react-icons/fa';
 
 enum UserRole {
   SUPER_ADMIN = 'super_admin',
@@ -239,83 +239,82 @@ const UserListPage: React.FC = () => {
         </Col>
       </Row>
 
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Usuario</th>
-            <th>Roles</th>
-            <th>Puntos</th>
-            <th>Monedas</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
-            <tr>
-              <td colSpan={10} className="text-center">
-                <Spinner animation="border" />
-              </td>
-            </tr>
-          ) : sortedUsers.length > 0 ? (
-            sortedUsers.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.username}</td>
-                <td>
+      {isLoading ? (
+        <div className="text-center p-5">
+          <Spinner animation="border" variant="primary" />
+        </div>
+      ) : (
+        <Row xs={1} md={3} lg={4} className="g-3">
+          {sortedUsers.map((user) => (
+            <Col key={user.id}>
+              <Card className="h-100">
+                <Card.Header className="d-flex justify-content-between align-items-center py-2">
+                  <div className="text-truncate me-2 h6 mb-0">{user.username}</div>
                   <Button
                     variant="info"
                     size="sm"
                     onClick={() => handleShowRoles(user)}
+                    className="px-2 py-1"
                   >
-                    Ver roles ({user.roles.length})
+                    Roles {user.roles.length}
                   </Button>
-                </td>
-                <td>
-                  <Form.Control
-                    type="number"
-                    value={editingUsers[user.id]?.points}
-                    onChange={(e) => handleValueChange(user.id, 'points', e.target.value)}
-                    style={{ width: '80px' }}
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="number"
-                    value={editingUsers[user.id]?.coins}
-                    onChange={(e) => handleValueChange(user.id, 'coins', e.target.value)}
-                    style={{ width: '80px' }}
-                  />
-                </td>
-                <td>
+                </Card.Header>
+                <Card.Body className="p-3">
+                  <div className="mb-3">
+                    <div className="mb-2">
+                      <label className="form-label d-flex align-items-center mb-1">
+                        {parseInt(editingUsers[user.id]?.points) < 0 ? (
+                          <FaExclamationTriangle className="text-danger me-2" />
+                        ) : (
+                          <FaStar className="text-warning me-2" />
+                        )}
+                        <span className="fw-bold small">Puntos</span>
+                      </label>
+                      <Form.Control
+                        type="number"
+                        value={editingUsers[user.id]?.points}
+                        onChange={(e) => handleValueChange(user.id, 'points', e.target.value)}
+                        size="sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="form-label d-flex align-items-center mb-1">
+                        <FaCoins className="text-warning me-2" />
+                        <span className="fw-bold small">Monedas</span>
+                      </label>
+                      <Form.Control
+                        type="number"
+                        value={editingUsers[user.id]?.coins}
+                        onChange={(e) => handleValueChange(user.id, 'coins', e.target.value)}
+                        size="sm"
+                      />
+                    </div>
+                  </div>
                   {savingChanges[user.id] ? (
-                    <Spinner animation="border" size="sm" />
+                    <div className="text-center">
+                      <Spinner animation="border" size="sm" />
+                    </div>
                   ) : (
                     <Button
-                      variant="primary"
-                      size="sm"
+                      variant={hasChanges[user.id] ? "primary" : "outline-secondary"}
                       disabled={!hasChanges[user.id]}
                       onClick={() => handleSaveChanges(user)}
+                      className="w-100"
+                      size="sm"
                     >
-                      Guardar cambios
+                      {hasChanges[user.id] ? "Guardar" : "Sin cambios"}
                     </Button>
                   )}
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={10} className="text-center">
-                No se encontraron usuarios
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
 
       <RolesModal />
 
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="d-flex justify-content-between align-items-center mt-4">
         <span>Total: {totalUsers} usuarios</span>
         <div>
           <Button
