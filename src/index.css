@@ -723,3 +723,43 @@ select:focus {
   overflow: hidden;
   flex: 1;
 }
+
+/* Estilos para listas */
+ul, ol {
+  background-color: var(--card-color);
+  color: var(--font-color);
+}
+
+.dropdown-menu {
+  background-color: var(--card-color);
+  border: 1px solid var(--border-color);
+}
+
+.dropdown-item {
+  color: var(--font-color);
+}
+
+.dropdown-item:hover, 
+.dropdown-item:focus {
+  background-color: var(--secondary-color);
+  color: var(--font-color);
+}
+
+.list-group {
+  background-color: var(--card-color);
+}
+
+.list-group-item {
+  background-color: var(--card-color);
+  border-color: var(--border-color);
+  color: var(--font-color);
+}
+
+.list-group-item:hover {
+  background-color: var(--secondary-color);
+}
+
+.list-group-item.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-border);
+}
