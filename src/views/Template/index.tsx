@@ -58,7 +58,6 @@ const TemplatePage: React.FC = () => {
       setIsLoading(false);
       return;
     }
-    console.log("selectedTemplate", selectedTemplate);
 
     try {
       if (isEditing) {
