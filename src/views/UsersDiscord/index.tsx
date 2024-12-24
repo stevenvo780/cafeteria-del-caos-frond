@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Container, Row, Col, Form, Spinner, InputGroup } from 'react-bootstrap';
+import { Table, Button, Container, Row, Col, Form, Spinner, InputGroup, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addNotification } from '../../redux/ui';
 import api from '../../utils/axios';
-import axios from 'axios';
-import { FaSearch, FaSort } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
+
+enum UserRole {
+  SUPER_ADMIN = 'super_admin',
+  ADMIN = 'admin',
+  EDITOR = 'editor',
+  USER = 'user',
+}
 
 interface DiscordRole {
   id: string;
@@ -17,9 +23,18 @@ interface User {
   id: string;
   username: string;
   nickname: string | null;
+  email: string;
+  name: string | null;
+  role: UserRole;
   roles: DiscordRole[];
-  penaltyPoints: number;
+  points: number;
+  coins: number;
   discordData: any;
+}
+
+interface EditingUser {
+  points: string;
+  coins: string;
 }
 
 interface SortConfig {
@@ -38,8 +53,11 @@ const UserListPage: React.FC = () => {
   const [totalUsers, setTotalUsers] = useState(0);
   const limit = 10;
   const dispatch = useDispatch();
-  const [editingPoints, setEditingPoints] = useState<{ [key: string]: string }>({});
-  const [savingPoints, setSavingPoints] = useState<{ [key: string]: boolean }>({});
+  const [editingUsers, setEditingUsers] = useState<{ [key: string]: EditingUser }>({});
+  const [savingChanges, setSavingChanges] = useState<{ [key: string]: boolean }>({});
+  const [hasChanges, setHasChanges] = useState<{ [key: string]: boolean }>({});
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [showRolesModal, setShowRolesModal] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -103,30 +121,88 @@ const UserListPage: React.FC = () => {
 
   console.log(sortedUsers);
 
-  const handlePointsChange = (userId: string, value: string) => {
-    setEditingPoints(prev => ({ ...prev, [userId]: value }));
+  const handleValueChange = (userId: string, field: keyof EditingUser, value: string) => {
+    setEditingUsers(prev => ({
+      ...prev,
+      [userId]: {
+        ...prev[userId],
+        [field]: value
+      }
+    }));
+    setHasChanges(prev => ({ ...prev, [userId]: true }));
   };
 
-  const handlePointsBlur = async (user: User) => {
-    const newPoints = editingPoints[user.id];
-    if (newPoints === undefined || newPoints === user.penaltyPoints.toString()) {
-      return;
-    }
-
-    setSavingPoints(prev => ({ ...prev, [user.id]: true }));
+  const handleSaveChanges = async (user: User) => {
+    setSavingChanges(prev => ({ ...prev, [user.id]: true }));
     try {
-      await api.patch(`/user/${user.id}/points`, { points: parseInt(newPoints) });
+      const changes = editingUsers[user.id];
+      await api.patch(`/discord-users/${user.id}`, {
+        points: parseInt(changes.points),
+        coins: parseInt(changes.coins)
+      });
+      
       setUsers(prev => prev.map(u =>
-        u.id === user.id ? { ...u, penaltyPoints: parseInt(newPoints) } : u
+        u.id === user.id ? {
+          ...u,
+          points: parseInt(changes.points),
+          coins: parseInt(changes.coins)
+        } : u
       ));
-      dispatch(addNotification({ message: 'Puntos actualizados correctamente', color: 'success' }));
+      
+      setHasChanges(prev => ({ ...prev, [user.id]: false }));
+      dispatch(addNotification({ 
+        message: 'Puntos y monedas actualizados correctamente', 
+        color: 'success' 
+      }));
     } catch (error) {
-      dispatch(addNotification({ message: 'Error al actualizar los puntos', color: 'danger' }));
-      setEditingPoints(prev => ({ ...prev, [user.id]: user.penaltyPoints.toString() }));
+      dispatch(addNotification({ 
+        message: 'Error al actualizar puntos y monedas', 
+        color: 'danger' 
+      }));
     } finally {
-      setSavingPoints(prev => ({ ...prev, [user.id]: false }));
+      setSavingChanges(prev => ({ ...prev, [user.id]: false }));
     }
   };
+
+  useEffect(() => {
+    const newEditingUsers: { [key: string]: EditingUser } = {};
+    users.forEach(user => {
+      newEditingUsers[user.id] = {
+        points: user.points.toString(),
+        coins: user.coins.toString()
+      };
+    });
+    setEditingUsers(newEditingUsers);
+  }, [users]);
+
+  const handleShowRoles = (user: User) => {
+    setSelectedUser(user);
+    setShowRolesModal(true);
+  };
+
+  const RolesModal = () => (
+    <Modal show={showRolesModal} onHide={() => setShowRolesModal(false)} size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title>Roles de {selectedUser?.username}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="roles-grid">
+          {selectedUser?.roles.map((role) => (
+            <span
+              key={role.id}
+              className="role-tag"
+              style={{
+                backgroundColor: `#${role.color.toString(16).padStart(6, '0')}`,
+                color: role.color > 0x7FFFFF ? '#000' : '#fff',
+              }}
+            >
+              {role.name}
+            </span>
+          ))}
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
 
   const totalPages = Math.ceil(totalUsers / limit);
 
@@ -170,26 +246,21 @@ const UserListPage: React.FC = () => {
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            {['ID', 'Usuario', 'Apodo', 'Roles', 'Puntos'].map((header, index) => {
-
-              return (
-                <th
-                  key={index}
-                  onClick={() => header && handleSort(header as keyof User)}
-                  style={{ cursor: header ? 'pointer' : 'default' }}
-                >
-                  {header} {sortConfig.key === header && header && (
-                    <FaSort />
-                  )}
-                </th>
-              );
-            })}
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Apodo</th>
+            <th>Email</th>
+            <th>Nombre</th>
+            <th>Roles</th>
+            <th>Puntos</th>
+            <th>Monedas</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {isLoading ? (
             <tr>
-              <td colSpan={6} className="text-center">
+              <td colSpan={10} className="text-center">
                 <Spinner animation="border" />
               </td>
             </tr>
@@ -199,31 +270,60 @@ const UserListPage: React.FC = () => {
                 <td>{user.id}</td>
                 <td>{user.username}</td>
                 <td>{user.nickname || 'Sin apodo'}</td>
-                <td>{user.roles.map(role => role.name).join(', ')}</td>
+                <td>{user.email}</td>
+                <td>{user.name || 'Sin nombre'}</td>
                 <td>
-                  {savingPoints[user.id] ? (
+                  <Button
+                    variant="info"
+                    size="sm"
+                    onClick={() => handleShowRoles(user)}
+                  >
+                    Ver roles ({user.roles.length})
+                  </Button>
+                </td>
+                <td>
+                  <Form.Control
+                    type="number"
+                    value={editingUsers[user.id]?.points}
+                    onChange={(e) => handleValueChange(user.id, 'points', e.target.value)}
+                    style={{ width: '80px' }}
+                  />
+                </td>
+                <td>
+                  <Form.Control
+                    type="number"
+                    value={editingUsers[user.id]?.coins}
+                    onChange={(e) => handleValueChange(user.id, 'coins', e.target.value)}
+                    style={{ width: '80px' }}
+                  />
+                </td>
+                <td>
+                  {savingChanges[user.id] ? (
                     <Spinner animation="border" size="sm" />
                   ) : (
-                    <Form.Control
-                      type="number"
-                      value={editingPoints[user.id] ?? user.penaltyPoints}
-                      onChange={(e) => handlePointsChange(user.id, e.target.value)}
-                      onBlur={() => handlePointsBlur(user)}
-                      style={{ width: '80px' }}
-                    />
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      disabled={!hasChanges[user.id]}
+                      onClick={() => handleSaveChanges(user)}
+                    >
+                      Guardar cambios
+                    </Button>
                   )}
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={6} className="text-center">
+              <td colSpan={10} className="text-center">
                 No se encontraron usuarios
               </td>
             </tr>
           )}
         </tbody>
       </Table>
+
+      <RolesModal />
 
       <div className="d-flex justify-content-between align-items-center">
         <span>Total: {totalUsers} usuarios</span>
