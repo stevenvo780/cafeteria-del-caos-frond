@@ -149,6 +149,7 @@ const LoginPage: React.FC = () => {
                 <Button
                   className="w-100"
                   variant="outline-secondary"
+                  style={{ backgroundColor: 'white', color: 'black' }}
                   onClick={signInWithGoogle}
                   disabled={isLoading}
                 >
