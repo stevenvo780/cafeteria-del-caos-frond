@@ -3,7 +3,7 @@ import { Card, Button, Container, Row, Col, Form, Spinner, InputGroup, Modal } f
 import { useDispatch } from 'react-redux';
 import { addNotification } from '../../redux/ui';
 import api from '../../utils/axios';
-import { FaSearch, FaCoins, FaStar, FaExclamationTriangle } from 'react-icons/fa';
+import { FaSearch, FaCoins, FaStar, FaExclamationTriangle, FaMinusCircle } from 'react-icons/fa';
 
 enum UserRole {
   SUPER_ADMIN = 'super_admin',
@@ -263,12 +263,8 @@ const UserListPage: React.FC = () => {
                   <div className="mb-3">
                     <div className="mb-2">
                       <label className="form-label d-flex align-items-center mb-1">
-                        {parseInt(editingUsers[user.id]?.points) < 0 ? (
-                          <FaExclamationTriangle className="text-danger me-2" />
-                        ) : (
-                          <FaStar className="text-warning me-2" />
-                        )}
-                        <span className="fw-bold small">Puntos</span>
+                        <FaMinusCircle className="text-danger me-2" />
+                        <span className="fw-bold small">Penalización</span>
                       </label>
                       <Form.Control
                         type="number"
