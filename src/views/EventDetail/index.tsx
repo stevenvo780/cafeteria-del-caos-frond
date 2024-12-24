@@ -15,6 +15,7 @@ import { RootState } from '../../redux/store';
 import { UserRole } from '../../utils/types';
 import SocialShareButtons from '../../components/SocialShareButtons';
 import moment from 'moment';
+import { Helmet } from 'react-helmet';
 
 const EventDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -85,85 +86,90 @@ const EventDetail: React.FC = () => {
     setShowModal(true);
   };
 
-  const shareUrl = window.location.href;
-  const title = event ? event.title : "Evento";
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const title = event ? event.title : 'Evento';
 
   if (!event) {
     return <p>Cargando detalles del evento...</p>;
   }
 
+  const plainDescription = event.description.replace(/<[^>]+>/g, '').substring(0, 160);
+
   return (
-    <Container className="mt-4 d-flex flex-column">
-      {(userRole?.role === UserRole.ADMIN || userRole?.role === UserRole.SUPER_ADMIN) && (
-        <div className="edit-icon-container position-fixed" style={{ top: '100px', right: '50px', zIndex:100 }}>
-          <FaEdit
-            size={24}
-            onClick={handleEdit}
-            style={{ cursor: 'pointer' }}
+    <>
+      <Helmet>
+        <title>{event.title} - Cafetería del Caos</title>
+        <meta name="description" content={plainDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={shareUrl} />
+        <meta property="og:title" content={event.title} />
+        <meta property="og:description" content={plainDescription} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={shareUrl} />
+        <meta property="twitter:title" content={event.title} />
+        <meta property="twitter:description" content={plainDescription} />
+      </Helmet>
+
+      <Container className="mt-4 d-flex flex-column">
+        {(userRole?.role === UserRole.ADMIN || userRole?.role === UserRole.SUPER_ADMIN) && (
+          <div className="edit-icon-container position-fixed" style={{ top: '100px', right: '50px', zIndex: 100 }}>
+            <FaEdit size={24} onClick={handleEdit} style={{ cursor: 'pointer' }} />
+          </div>
+        )}
+        <Row style={{ marginBottom: '20px' }}>
+          <Col md={8} className="order-first order-md-last mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{event.title}</Card.Title>
+                <Card.Text dangerouslySetInnerHTML={{ __html: event.description }} />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4} className="order-last order-md-first">
+            <Card className="mb-4 gradient-card">
+              <Card.Body>
+                <Card.Text className="countdown-text">{timeRemaining || '00:00:00'}</Card.Text>
+              </Card.Body>
+            </Card>
+            <Card className="mb-4">
+              <Card.Body>
+                <Card.Title>Fecha</Card.Title>
+                <Card.Text>{nextOccurrence ? nextOccurrence.toLocaleDateString() : 'Sin próxima fecha'}</Card.Text>
+              </Card.Body>
+            </Card>
+            <Card className="mb-4">
+              <Card.Body>
+                <Card.Title>Hora</Card.Title>
+                <Card.Text>{nextOccurrence ? nextOccurrence.toLocaleTimeString() : 'Sin próxima hora'}</Card.Text>
+              </Card.Body>
+            </Card>
+            <Card className="mb-4">
+              <Card.Body>
+                <ReactCalendar
+                  value={nextOccurrence || new Date(event.startDate)}
+                  tileDisabled={({ date }) => {
+                    return false;
+                  }}
+                  className="minimal-calendar"
+                  showNavigation={false}
+                />
+              </Card.Body>
+            </Card>
+            <SocialShareButtons size={50} shareUrl={shareUrl} title={title} />
+          </Col>
+        </Row>
+        {upcomingEvents.length > 0 && <ScrollableEvents events={upcomingEvents} />}
+        {showModal && (
+          <EventModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            selectedEvent={event}
+            fetchEvents={() => { }}
+            isEditing={isEditing}
           />
-        </div>
-      )}
-      <Row style={{ marginBottom: '20px' }}>
-        {/* Detalles del Evento: Primero en dispositivos móviles */}
-        <Col md={8} className="order-first order-md-last mb-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>{event.title}</Card.Title>
-              <Card.Text dangerouslySetInnerHTML={{ __html: event.description }} />
-            </Card.Body>
-          </Card>
-        </Col>
-
-        {/* Tarjetas: Último en dispositivos móviles */}
-        <Col md={4} className="order-last order-md-first">
-          <Card className="mb-4 gradient-card">
-            <Card.Body>
-              <Card.Text className="countdown-text">{timeRemaining || "00:00:00"}</Card.Text>
-            </Card.Body>
-          </Card>
-
-          <Card className="mb-4">
-            <Card.Body>
-              <Card.Title>Fecha</Card.Title>
-              <Card.Text>{nextOccurrence ? nextOccurrence.toLocaleDateString() : 'Sin próxima fecha'}</Card.Text>
-            </Card.Body>
-          </Card>
-
-          <Card className="mb-4">
-            <Card.Body>
-              <Card.Title>Hora</Card.Title>
-              <Card.Text>{nextOccurrence ? nextOccurrence.toLocaleTimeString() : 'Sin próxima hora'}</Card.Text>
-            </Card.Body>
-          </Card>
-
-          <Card className="mb-4">
-            <Card.Body>
-              <ReactCalendar
-                value={nextOccurrence || new Date(event.startDate)}
-                tileDisabled={({ date }) => {
-                  return false;
-                }}
-                className="minimal-calendar"
-                showNavigation={false}
-              />
-            </Card.Body>
-          </Card>
-
-          <SocialShareButtons size={50} shareUrl={shareUrl} title={title} />
-        </Col>
-      </Row>
-      {upcomingEvents.length > 0 && <ScrollableEvents events={upcomingEvents} />}
-
-      {showModal && (
-        <EventModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          selectedEvent={event}
-          fetchEvents={() => { }}
-          isEditing={isEditing}
-        />
-      )}
-    </Container>
+        )}
+      </Container>
+    </>
   );
 };
 
