@@ -39,9 +39,7 @@ const UserListPage: React.FC = () => {
         offset,
         search: searchTerm || undefined,
       };
-      console.log(params);
       const response = await axios.get('/user', { params });
-      console.log(response);
       if (response.data && Array.isArray(response.data.users)) {
         setUsers(response.data.users);
         setTotalUsers(response.data.total || 0);
@@ -87,8 +85,6 @@ const UserListPage: React.FC = () => {
       return valueA > valueB ? direction : -direction;
     });
   }, [users, sortConfig]);
-
-  console.log(sortedUsers);
 
   const handleEditClick = (user: User) => {
     setSelectedUser(user);

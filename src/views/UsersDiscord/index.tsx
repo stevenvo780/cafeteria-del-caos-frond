@@ -70,9 +70,7 @@ const UserListPage: React.FC = () => {
         minPoints: minPoints ? Number(minPoints) : undefined,
         maxPoints: maxPoints ? Number(maxPoints) : undefined,
       };
-      console.log(params);
       const response = await api.get('/discord-users', { params });
-      console.log(response);
       if (response.data && Array.isArray(response.data.users)) {
         setUsers(response.data.users);
         setTotalUsers(response.data.total || 0);
@@ -118,8 +116,6 @@ const UserListPage: React.FC = () => {
       return valueA > valueB ? direction : -direction;
     });
   }, [users, sortConfig]);
-
-  console.log(sortedUsers);
 
   const handleValueChange = (userId: string, field: keyof EditingUser, value: string) => {
     setEditingUsers(prev => ({
