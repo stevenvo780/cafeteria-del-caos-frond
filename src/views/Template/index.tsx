@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { getTemplates, updateTemplate, addTemplate, deleteTemplate } from '../../redux/templates';
 import { addNotification } from '../../redux/ui';
-import axios from '../../utils/axios';
+import api from '../../utils/axios';
 import TemplateEditModal from './TemplateEditModal';
 import { TemplateType, Template } from '../../utils/types';
 
@@ -23,7 +23,7 @@ const TemplatePage: React.FC = () => {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get('/template');
+        const response = await api.get('/template');
         dispatch(getTemplates(response.data));
       } catch (error) {
         dispatch(addNotification({ message: 'Error al cargar plantillas', color: 'danger' }));
@@ -58,38 +58,40 @@ const TemplatePage: React.FC = () => {
       setIsLoading(false);
       return;
     }
-    if (selectedTemplate) {
-      try {
-        if (isEditing) {
-          const response = await axios.patch(`/template/${selectedTemplate.id}`, { name: title, content, type });
+    console.log("selectedTemplate", selectedTemplate);
+
+    try {
+      if (isEditing) {
+        if (selectedTemplate) {
+          const response = await api.patch(`/template/${selectedTemplate.id}`, { name: title, content, type });
           if (response.status === 200) {
             dispatch(updateTemplate({ ...selectedTemplate, name: title, content, type }));
             dispatch(addNotification({ message: 'Plantilla actualizada correctamente', color: 'success' }));
           } else {
             dispatch(addNotification({ message: 'Error al actualizar la plantilla', color: 'danger' }));
           }
-        } else {
-          const response = await axios.post('/template', { name: title, content, type });
-          if (response.status === 201) {
-            dispatch(addTemplate(response.data));
-            dispatch(addNotification({ message: 'Plantilla creada correctamente', color: 'success' }));
-          } else {
-            dispatch(addNotification({ message: 'Error al crear la plantilla', color: 'danger' }));
-          }
         }
-      } catch (error) {
-        dispatch(addNotification({ message: 'Error al procesar la solicitud', color: 'danger' }));
-      } finally {
-        setIsLoading(false);
-        setShowEditModal(false);
+      } else {
+        const response = await api.post('/template', { name: title, content, type });
+        if (response.status === 201) {
+          dispatch(addTemplate(response.data));
+          dispatch(addNotification({ message: 'Plantilla creada correctamente', color: 'success' }));
+        } else {
+          dispatch(addNotification({ message: 'Error al crear la plantilla', color: 'danger' }));
+        }
       }
+    } catch (error) {
+      dispatch(addNotification({ message: 'Error al procesar la solicitud', color: 'danger' }));
+    } finally {
+      setIsLoading(false);
+      setShowEditModal(false);
     }
   };
 
   const handleDeleteClick = async (templateId: number) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta plantilla?')) {
       try {
-        const response = await axios.delete(`/template/${templateId}`);
+        const response = await api.delete(`/template/${templateId}`);
         if (response.status === 200) {
           dispatch(deleteTemplate(templateId));
           dispatch(addNotification({ message: 'Plantilla eliminada correctamente', color: 'success' }));
