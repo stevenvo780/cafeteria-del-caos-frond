@@ -38,7 +38,7 @@ interface EditingUser {
 }
 
 interface SortConfig {
-  key: keyof User | null;
+  key: 'points' | 'coins' | null;
   direction: 'asc' | 'desc';
 }
 
@@ -66,23 +66,37 @@ const UserListPage: React.FC = () => {
       const params = {
         limit,
         offset,
-        search: searchTerm || undefined,
-        minPoints: minPoints ? Number(minPoints) : undefined,
-        maxPoints: maxPoints ? Number(maxPoints) : undefined,
+        search: searchTerm.trim() || undefined,
+        minPoints: minPoints ? parseInt(minPoints) : undefined,
+        maxPoints: maxPoints ? parseInt(maxPoints) : undefined,
+        sortBy: sortConfig.key || 'points',
+        sortOrder: sortConfig.direction.toUpperCase(),
       };
-      const response = await api.get('/discord-users', { params });
+      
+      // Elimina parámetros undefined
+      const cleanParams = Object.fromEntries(
+        Object.entries(params).filter(([_, v]) => v != null)
+      );
+
+      const response = await api.get('/discord-users', { params: cleanParams });
       if (response.data && Array.isArray(response.data.users)) {
         setUsers(response.data.users);
         setTotalUsers(response.data.total || 0);
       } else {
         setUsers([]);
         setTotalUsers(0);
-        dispatch(addNotification({ message: 'Formato de respuesta inválido', color: 'warning' }));
+        dispatch(addNotification({ 
+          message: 'Formato de respuesta inválido', 
+          color: 'warning' 
+        }));
       }
     } catch (error) {
       setUsers([]);
       setTotalUsers(0);
-      dispatch(addNotification({ message: 'Error al cargar usuarios', color: 'danger' }));
+      dispatch(addNotification({ 
+        message: 'Error al cargar usuarios', 
+        color: 'danger' 
+      }));
     } finally {
       setIsLoading(false);
     }
@@ -90,9 +104,9 @@ const UserListPage: React.FC = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [page, searchTerm, minPoints, maxPoints]);
+  }, [page, searchTerm, minPoints, maxPoints, sortConfig]);
 
-  const handleSort = (key: keyof User) => {
+  const handleSort = (key: 'points' | 'coins') => {
     setSortConfig(prevConfig => ({
       key,
       direction: prevConfig.key === key && prevConfig.direction === 'asc' ? 'desc' : 'asc'
@@ -236,6 +250,24 @@ const UserListPage: React.FC = () => {
               />
             </Col>
           </Row>
+        </Col>
+      </Row>
+
+      <Row className="mb-3">
+        <Col>
+          <Button
+            variant={sortConfig.key === 'points' ? 'primary' : 'outline-primary'}
+            onClick={() => handleSort('points')}
+            className="me-2"
+          >
+            Ordenar por Puntos {sortConfig.key === 'points' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+          </Button>
+          <Button
+            variant={sortConfig.key === 'coins' ? 'primary' : 'outline-primary'}
+            onClick={() => handleSort('coins')}
+          >
+            Ordenar por Monedas {sortConfig.key === 'coins' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+          </Button>
         </Col>
       </Row>
 
