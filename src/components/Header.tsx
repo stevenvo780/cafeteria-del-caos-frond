@@ -44,25 +44,24 @@ const Header: React.FC = () => {
         borderBottom: "1px solid var(--border-color)"
       }}>
         <Container fluid className="pl-4 pr-4">
-          <Navbar.Brand as={Link} to="/">
+            <Navbar.Brand as={Link} to="/">
             <Image
-              src="/images/logo.webp"
+              src="/images/logo.png"
               alt="Logo"
-              roundedCircle
-              style={{ width: '40px', height: '40px', objectFit: 'cover', marginInline: 10 }}
+              style={{ width: '50px', height: '50px', objectFit: 'contain', padding: '5px', margin: '0 15px' }}
             />
             <span
               style={{
-                fontFamily: "Montaga",
-                fontSize: "1.5rem",
-                color: "var(--font-color)",
-                fontWeight: "bold"
+              fontFamily: "Montaga",
+              fontSize: "1.5rem",
+              color: "var(--font-color)",
+              fontWeight: "bold"
               }}
               className="ml-2"
             >
               Cafeteria del caos
             </span>
-          </Navbar.Brand>
+            </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggleSidebar} />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end d-none d-lg-flex">
             <Nav>
