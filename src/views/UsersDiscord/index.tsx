@@ -35,8 +35,8 @@ interface User {
 
 interface EditingUser {
   points: string;
-  coins: string;
   experience: string;
+  coins: string;
 }
 
 interface SortConfig {
@@ -148,29 +148,32 @@ const UserListPage: React.FC = () => {
     setSavingChanges(prev => ({ ...prev, [user.id]: true }));
     try {
       const changes = editingUsers[user.id];
+      
+      // Actualizar usuario (puntos y experiencia)
       await api.patch(`/discord-users/${user.id}`, {
         points: parseInt(changes.points),
-        coins: parseInt(changes.coins),
         experience: parseInt(changes.experience)
       });
+
+      // Si cambiaron las monedas, ajustar balance mediante kardex
+      const newCoins = parseInt(changes.coins);
+      if (newCoins !== user.coins) {
+        const endpoint = newCoins > user.coins ? 'cash-in' : 'cash-out';
+        await api.post(`/kardex/${endpoint}/${user.id}`, {
+          targetBalance: newCoins,
+          reference: 'Admin balance adjustment'
+        });
+      }
       
-      setUsers(prev => prev.map(u =>
-        u.id === user.id ? {
-          ...u,
-          points: parseInt(changes.points),
-          coins: parseInt(changes.coins),
-          experience: parseInt(changes.experience)
-        } : u
-      ));
-      
+      fetchUsers();
       setHasChanges(prev => ({ ...prev, [user.id]: false }));
       dispatch(addNotification({ 
-        message: 'Puntos, monedas y experiencia actualizados correctamente', 
+        message: 'Valores actualizados correctamente', 
         color: 'success' 
       }));
     } catch (error) {
       dispatch(addNotification({ 
-        message: 'Error al actualizar puntos, monedas y experiencia', 
+        message: 'Error al actualizar los valores', 
         color: 'danger' 
       }));
     } finally {
@@ -184,7 +187,7 @@ const UserListPage: React.FC = () => {
       newEditingUsers[user.id] = {
         points: user.points.toString(),
         coins: user.coins.toString(),
-        experience: user.experience.toString()
+        experience: user.experience.toString(),
       };
     });
     setEditingUsers(newEditingUsers);
@@ -319,18 +322,6 @@ const UserListPage: React.FC = () => {
                     </div>
                     <div>
                       <label className="form-label d-flex align-items-center mb-1">
-                        <FaCoins className="text-warning me-2" />
-                        <span className="fw-bold small">Monedas</span>
-                      </label>
-                      <Form.Control
-                        type="number"
-                        value={editingUsers[user.id]?.coins}
-                        onChange={(e) => handleValueChange(user.id, 'coins', e.target.value)}
-                        size="sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="form-label d-flex align-items-center mb-1">
                         <FaStar className="text-warning me-2" />
                         <span className="fw-bold small">Experiencia</span>
                       </label>
@@ -338,6 +329,18 @@ const UserListPage: React.FC = () => {
                         type="number"
                         value={editingUsers[user.id]?.experience}
                         onChange={(e) => handleValueChange(user.id, 'experience', e.target.value)}
+                        size="sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="form-label d-flex align-items-center mb-1">
+                        <FaCoins className="text-warning me-2" />
+                        <span className="fw-bold small">Monedas</span>
+                      </label>
+                      <Form.Control
+                        type="number"
+                        value={editingUsers[user.id]?.coins}
+                        onChange={(e) => handleValueChange(user.id, 'coins', e.target.value)}
                         size="sm"
                       />
                     </div>
