@@ -8,10 +8,11 @@ interface User {
   username: string;
   points: number;
   coins: number;
+  experience: number;
 }
 
 interface SortConfig {
-  key: 'points' | 'coins' | null;
+  key: 'points' | 'coins' | 'experience' | null;
   direction: 'asc' | 'desc';
 }
 
@@ -60,7 +61,7 @@ const RankingPage: React.FC = () => {
     fetchUsers();
   }, [page, searchTerm, sortConfig]);
 
-  const handleSort = (key: 'points' | 'coins') => {
+  const handleSort = (key: 'points' | 'coins' | 'experience') => {
     setSortConfig(prevConfig => ({
       key,
       direction: prevConfig.key === key && prevConfig.direction === 'asc' ? 'desc' : 'asc'
@@ -125,8 +126,15 @@ const RankingPage: React.FC = () => {
           <Button
             variant={sortConfig.key === 'coins' ? 'primary' : 'outline-primary'}
             onClick={() => handleSort('coins')}
+            className="me-2"
           >
             Ordenar por Monedas {sortConfig.key === 'coins' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+          </Button>
+          <Button
+            variant={sortConfig.key === 'experience' ? 'primary' : 'outline-primary'}
+            onClick={() => handleSort('experience')}
+          >
+            Ordenar por Experiencia {sortConfig.key === 'experience' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
           </Button>
         </Col>
       </Row>
@@ -143,6 +151,7 @@ const RankingPage: React.FC = () => {
               <th>Usuario</th>
               <th>Puntos</th>
               <th>Monedas</th>
+              <th>Experiencia</th>
             </tr>
           </thead>
           <tbody>
@@ -155,6 +164,7 @@ const RankingPage: React.FC = () => {
                 <td>{user.username}</td>
                 <td>{user.points}</td>
                 <td>{user.coins}</td>
+                <td>{user.experience}</td>
               </tr>
             ))}
           </tbody>
