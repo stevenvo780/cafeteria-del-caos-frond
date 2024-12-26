@@ -29,16 +29,18 @@ interface User {
   roles: DiscordRole[];
   points: number;
   coins: number;
+  experience: number;
   discordData: any;
 }
 
 interface EditingUser {
   points: string;
   coins: string;
+  experience: string;
 }
 
 interface SortConfig {
-  key: 'points' | 'coins' | null;
+  key: 'points' | 'coins' | 'experience' | null;
   direction: 'asc' | 'desc';
 }
 
@@ -106,7 +108,7 @@ const UserListPage: React.FC = () => {
     fetchUsers();
   }, [page, searchTerm, minPoints, maxPoints, sortConfig]);
 
-  const handleSort = (key: 'points' | 'coins') => {
+  const handleSort = (key: 'points' | 'coins' | 'experience') => {
     setSortConfig(prevConfig => ({
       key,
       direction: prevConfig.key === key && prevConfig.direction === 'asc' ? 'desc' : 'asc'
@@ -148,25 +150,27 @@ const UserListPage: React.FC = () => {
       const changes = editingUsers[user.id];
       await api.patch(`/discord-users/${user.id}`, {
         points: parseInt(changes.points),
-        coins: parseInt(changes.coins)
+        coins: parseInt(changes.coins),
+        experience: parseInt(changes.experience)
       });
       
       setUsers(prev => prev.map(u =>
         u.id === user.id ? {
           ...u,
           points: parseInt(changes.points),
-          coins: parseInt(changes.coins)
+          coins: parseInt(changes.coins),
+          experience: parseInt(changes.experience)
         } : u
       ));
       
       setHasChanges(prev => ({ ...prev, [user.id]: false }));
       dispatch(addNotification({ 
-        message: 'Puntos y monedas actualizados correctamente', 
+        message: 'Puntos, monedas y experiencia actualizados correctamente', 
         color: 'success' 
       }));
     } catch (error) {
       dispatch(addNotification({ 
-        message: 'Error al actualizar puntos y monedas', 
+        message: 'Error al actualizar puntos, monedas y experiencia', 
         color: 'danger' 
       }));
     } finally {
@@ -179,7 +183,8 @@ const UserListPage: React.FC = () => {
     users.forEach(user => {
       newEditingUsers[user.id] = {
         points: user.points.toString(),
-        coins: user.coins.toString()
+        coins: user.coins.toString(),
+        experience: user.experience.toString()
       };
     });
     setEditingUsers(newEditingUsers);
@@ -265,8 +270,15 @@ const UserListPage: React.FC = () => {
           <Button
             variant={sortConfig.key === 'coins' ? 'primary' : 'outline-primary'}
             onClick={() => handleSort('coins')}
+            className="me-2"
           >
             Ordenar por Monedas {sortConfig.key === 'coins' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+          </Button>
+          <Button
+            variant={sortConfig.key === 'experience' ? 'primary' : 'outline-primary'}
+            onClick={() => handleSort('experience')}
+          >
+            Ordenar por Experiencia {sortConfig.key === 'experience' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
           </Button>
         </Col>
       </Row>
@@ -314,6 +326,18 @@ const UserListPage: React.FC = () => {
                         type="number"
                         value={editingUsers[user.id]?.coins}
                         onChange={(e) => handleValueChange(user.id, 'coins', e.target.value)}
+                        size="sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="form-label d-flex align-items-center mb-1">
+                        <FaStar className="text-warning me-2" />
+                        <span className="fw-bold small">Experiencia</span>
+                      </label>
+                      <Form.Control
+                        type="number"
+                        value={editingUsers[user.id]?.experience}
+                        onChange={(e) => handleValueChange(user.id, 'experience', e.target.value)}
                         size="sm"
                       />
                     </div>
