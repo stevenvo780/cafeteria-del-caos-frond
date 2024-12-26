@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Container, Row, Col, Form, Spinner, InputGroup } from 'react-bootstrap';
 import { FaSearch, FaCoins, FaStar } from 'react-icons/fa';
@@ -88,6 +87,15 @@ const RankingPage: React.FC = () => {
 
   const totalPages = Math.ceil(totalUsers / limit);
 
+  const getMedalColor = (index: number) => {
+    switch (index) {
+      case 0: return '#FFD700'; // Oro
+      case 1: return '#C0C0C0'; // Plata
+      case 2: return '#CD7F32'; // Bronce
+      default: return '#FFFFFF';
+    }
+  };
+
   return (
     <Container className="mt-5">
       <Row className="mb-4">
@@ -128,45 +136,29 @@ const RankingPage: React.FC = () => {
           <Spinner animation="border" variant="primary" />
         </div>
       ) : (
-        <Row xs={1} md={3} lg={4} className="g-3">
-          {sortedUsers.map((user) => (
-            <Col key={user.id}>
-              <Card className="h-100">
-                <Card.Header className="d-flex justify-content-between align-items-center py-2">
-                  <div className="text-truncate me-2 h6 mb-0">{user.username}</div>
-                </Card.Header>
-                <Card.Body className="p-3">
-                  <div className="mb-3">
-                    <div className="mb-2">
-                      <label className="form-label d-flex align-items-center mb-1">
-                        <FaStar className="text-warning me-2" />
-                        <span className="fw-bold small">Puntos</span>
-                      </label>
-                      <Form.Control
-                        type="number"
-                        value={user.points}
-                        readOnly
-                        size="sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="form-label d-flex align-items-center mb-1">
-                        <FaCoins className="text-warning me-2" />
-                        <span className="fw-bold small">Monedas</span>
-                      </label>
-                      <Form.Control
-                        type="number"
-                        value={user.coins}
-                        readOnly
-                        size="sm"
-                      />
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Usuario</th>
+              <th>Puntos</th>
+              <th>Monedas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedUsers.map((user, index) => (
+              <tr
+                key={user.id}
+                style={{ border: `2px solid ${getMedalColor(index)}` }}
+              >
+                <td>{index + 1}</td>
+                <td>{user.username}</td>
+                <td>{user.points}</td>
+                <td>{user.coins}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
 
       <div className="d-flex justify-content-between align-items-center mt-4">
