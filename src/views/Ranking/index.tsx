@@ -20,7 +20,10 @@ const RankingPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ 
+    key: 'experience', 
+    direction: 'desc' 
+  });
   const [page, setPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
   const limit = 10;
@@ -33,7 +36,7 @@ const RankingPage: React.FC = () => {
         limit,
         offset,
         search: searchTerm.trim() || undefined,
-        sortBy: sortConfig.key || 'points',
+        sortBy: sortConfig.key || 'experience',
         sortOrder: sortConfig.direction.toUpperCase(),
       };
 
@@ -149,7 +152,7 @@ const RankingPage: React.FC = () => {
             <tr>
               <th>#</th>
               <th>Usuario</th>
-              <th>Puntos</th>
+              <th>Castigos</th>
               <th>Monedas</th>
               <th>Experiencia</th>
             </tr>

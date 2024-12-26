@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../utils/axios';
-import { FaTrophy, FaExclamationTriangle, FaCoins } from 'react-icons/fa';
+import { FaTrophy, FaCoins, FaStar } from 'react-icons/fa';
 import './TopUsers.css';
 
 interface DiscordUser {
   id: string;
   username: string;
-  points: number;
   coins: number;
+  experience: number;
 }
 
 const TopUsers: React.FC = () => {
@@ -49,12 +49,12 @@ const TopUsers: React.FC = () => {
             </div>
             <div className="user-card-stats">
               <div className="stat-item">
+                <FaStar className="stat-icon experience-icon" />
+                <span className="stat-value">{user.experience}</span>
+              </div>
+              <div className="stat-item">
                 <FaCoins className="stat-icon coin-icon" />
                 <span className="stat-value">{user.coins}</span>
-              </div>
-              <div className="stat-item penalty">
-                <FaExclamationTriangle className="stat-icon penalty-icon" />
-                <span className="stat-value">{user.points}</span>
               </div>
             </div>
           </div>
