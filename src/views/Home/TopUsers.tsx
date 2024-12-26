@@ -19,7 +19,7 @@ const TopUsers: React.FC = () => {
 
   const fetchTopUsers = async () => {
     try {
-      const response = await api.get<DiscordUser[]>('/discord-users/top?limit=10');
+      const response = await api.get<DiscordUser[]>('/discord-users/top?limit=3');
       setUsers(response.data);
     } catch (error) {
       console.error('Error al obtener top de usuarios:', error);
