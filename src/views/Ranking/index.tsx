@@ -44,7 +44,7 @@ const RankingPage: React.FC = () => {
         Object.entries(params).filter(([_, v]) => v != null)
       );
 
-      const response = await api.get('/discord-users/ranking', { params: cleanParams });
+      const response = await api.get('/discord-users', { params: cleanParams });
       if (response.data && Array.isArray(response.data.users)) {
         setUsers(response.data.users);
         setTotalUsers(response.data.total || 0);
