@@ -75,7 +75,6 @@ const UserListPage: React.FC = () => {
         sortOrder: sortConfig.direction.toUpperCase(),
       };
       
-      // Elimina parámetros undefined
       const cleanParams = Object.fromEntries(
         Object.entries(params).filter(([_, v]) => v != null)
       );

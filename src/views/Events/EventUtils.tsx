@@ -46,9 +46,10 @@ export const generateRecurringEvents = (event: Events): EventInput[] => {
   }
 
   let currentDate = startDate;
-  let occurrenceIndex = 0; 
+  let occurrenceIndex = 0;
+  const oneYearFromStart = add(startDate, { years: 1 });
 
-  while (isBefore(currentDate, add(startDate, { years: 1 }))) {
+  while (isBefore(currentDate, oneYearFromStart)) {
     events.push({
       id: event.id ? `${event.id}-${occurrenceIndex}` : undefined,
       title: event.title,
@@ -63,6 +64,9 @@ export const generateRecurringEvents = (event: Events): EventInput[] => {
     });
 
     switch (event.repetition) {
+      case Repetition.DAILY:
+        currentDate = add(currentDate, { days: 1 });
+        break;
       case Repetition.WEEKLY:
         currentDate = add(currentDate, { weeks: 1 });
         break;
@@ -103,6 +107,9 @@ export const getNextOccurrence = (event: Events): Date | null => {
   };
 
   switch (event.repetition) {
+    case Repetition.DAILY:
+      nextDate = set(add(now, { days: 1 }), eventTime);
+      break;
     case Repetition.WEEKLY:
       nextDate = eachWeekOfInterval({ start: startDate, end: add(now, { months: 1 }) })
         .map(date => set(date, eventTime))
