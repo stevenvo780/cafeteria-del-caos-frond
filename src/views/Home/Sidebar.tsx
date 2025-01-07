@@ -8,6 +8,7 @@ import UpcomingEvents from './UpcomingEvents';
 import LatestNotes from './LatestNotes';
 import DiscordMemberCard from './DiscordMemberCard';
 import TopUsers from './TopUsers';
+import ProjectSocialLinks from './ProjectSocialLinks';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const Sidebar: React.FC = () => {
       <UpcomingEvents events={upcomingEvents} />
       <TopUsers />
       <LatestNotes notes={latestNotes} />
+      <ProjectSocialLinks />
     </div>
   );
 };
