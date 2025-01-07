@@ -16,6 +16,13 @@ const generateRoutes = (routes: { path: string; element: string }[]) => {
   });
 };
 
+const NotFound: React.FC = () => (
+  <div style={{ textAlign: 'center', marginTop: 50 }}>
+    <h1>404</h1>
+    <p>Página no encontrada</p>
+  </div>
+);
+
 const AuthWrapper: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.userData);
   const publicRoutes = routesConfig.publicRoutes;
@@ -30,7 +37,7 @@ const AuthWrapper: React.FC = () => {
         <Suspense fallback={<div>Cargando...</div>}>
           <Routes>
             {generateRoutes(combinedRoutes)}
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </div>
