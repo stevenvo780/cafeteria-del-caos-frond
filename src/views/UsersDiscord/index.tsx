@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Container, Row, Col, Form, Spinner, InputGroup, Modal } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Form, Spinner, InputGroup } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addNotification } from '../../redux/ui';
 import api from '../../utils/axios';
-import { FaSearch, FaCoins, FaStar, FaExclamationTriangle, FaMinusCircle } from 'react-icons/fa';
+import { FaSearch, FaCoins, FaStar, FaMinusCircle, FaCopy } from 'react-icons/fa';
 
 enum UserRole {
   SUPER_ADMIN = 'super_admin',
   ADMIN = 'admin',
   EDITOR = 'editor',
   USER = 'user',
-}
-
-interface DiscordRole {
-  id: string;
-  name: string;
-  color: number;
-  position: number;
 }
 
 interface User {
@@ -26,7 +19,6 @@ interface User {
   email: string;
   name: string | null;
   role: UserRole;
-  roles: DiscordRole[];
   points: number;
   coins: number;
   experience: number;
@@ -58,8 +50,6 @@ const UserListPage: React.FC = () => {
   const [editingUsers, setEditingUsers] = useState<{ [key: string]: EditingUser }>({});
   const [savingChanges, setSavingChanges] = useState<{ [key: string]: boolean }>({});
   const [hasChanges, setHasChanges] = useState<{ [key: string]: boolean }>({});
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [showRolesModal, setShowRolesModal] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -192,34 +182,13 @@ const UserListPage: React.FC = () => {
     setEditingUsers(newEditingUsers);
   }, [users]);
 
-  const handleShowRoles = (user: User) => {
-    setSelectedUser(user);
-    setShowRolesModal(true);
+  const handleCopyId = (id: string) => {
+    navigator.clipboard.writeText(id);
+    dispatch(addNotification({ 
+      message: 'ID copiado al portapapeles', 
+      color: 'success' 
+    }));
   };
-
-  const RolesModal = () => (
-    <Modal show={showRolesModal} onHide={() => setShowRolesModal(false)} size="lg">
-      <Modal.Header closeButton>
-        <Modal.Title>Roles de {selectedUser?.username}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="roles-grid">
-          {selectedUser?.roles.map((role) => (
-            <span
-              key={role.id}
-              className="role-tag"
-              style={{
-                backgroundColor: `#${role.color.toString(16).padStart(6, '0')}`,
-                color: role.color > 0x7FFFFF ? '#000' : '#fff',
-              }}
-            >
-              {role.name}
-            </span>
-          ))}
-        </div>
-      </Modal.Body>
-    </Modal>
-  );
 
   const totalPages = Math.ceil(totalUsers / limit);
 
@@ -294,16 +263,22 @@ const UserListPage: React.FC = () => {
           {sortedUsers.map((user) => (
             <Col key={user.id}>
               <Card className="h-100">
-                <Card.Header className="d-flex justify-content-between align-items-center py-2">
-                  <div className="text-truncate me-2 h6 mb-0">{user.username}</div>
-                  <Button
-                    variant="info"
-                    size="sm"
-                    onClick={() => handleShowRoles(user)}
-                    className="px-2 py-1"
-                  >
-                    Roles {user.roles.length}
-                  </Button>
+                <Card.Header className="py-2">
+                  <div className="d-flex justify-content-between align-items-start">
+                    <div className="text-truncate me-2">
+                      <div className="h6 mb-0">{user.username}</div>
+                      <small className="text-muted user-select-all">{user.id}</small>
+                    </div>
+                    <Button
+                      variant="outline-secondary"
+                      size="sm"
+                      onClick={() => handleCopyId(user.id)}
+                      className="px-2 py-1"
+                      title="Copiar ID de Discord"
+                    >
+                      <FaCopy />
+                    </Button>
+                  </div>
                 </Card.Header>
                 <Card.Body className="p-3">
                   <div className="mb-3">
@@ -365,8 +340,6 @@ const UserListPage: React.FC = () => {
           ))}
         </Row>
       )}
-
-      <RolesModal />
 
       <div className="d-flex justify-content-between align-items-center mt-4">
         <span>Total: {totalUsers} usuarios</span>
