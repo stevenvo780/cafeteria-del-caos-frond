@@ -71,6 +71,27 @@ const SEOHeaders: React.FC = () => {
       <meta name="author" content="Cafetería del Caos" />
       <meta name="publisher" content="Cafetería del Caos" />
       <meta name="theme-color" content="#1a1a1a" />
+
+      {/* JSON-LD */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type":
+            seo.type === 'article'
+              ? 'Article'
+              : seo.type === 'event' || seo.type === 'events'
+              ? 'Event'
+              : 'WebSite',
+          "name": seo.title,
+          "description": seo.description,
+          "url": canonicalUrl,
+          "image": seo.image ? `${siteUrl}${seo.image}` : undefined,
+          "author": {
+            "@type": "Organization",
+            "name": siteName
+          }
+        })}
+      </script>
     </Helmet>
   );
 };
