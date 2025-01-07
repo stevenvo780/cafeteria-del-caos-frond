@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from './Header';
+import SEOHeaders from './SEOHeaders';
 import { FaDiscord, FaCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
@@ -30,6 +31,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
+      <SEOHeaders />
       <Header />
       {loading && (
         <div className="loader-overlay">
