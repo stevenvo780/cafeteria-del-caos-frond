@@ -108,6 +108,19 @@ const EventDetail: React.FC = () => {
         <meta property="twitter:url" content={shareUrl} />
         <meta property="twitter:title" content={event.title} />
         <meta property="twitter:description" content={plainDescription} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Event",
+            name: event.title,
+            description: plainDescription,
+            startDate: event.startDate.toISOString(),
+            endDate: event.endDate.toISOString(),
+            eventStatus: "https://schema.org/EventScheduled",
+            eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+            url: shareUrl
+          })}
+        </script>
       </Helmet>
 
       <Container className="mt-4 d-flex flex-column">
