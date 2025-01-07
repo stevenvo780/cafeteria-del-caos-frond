@@ -10,7 +10,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './App.css';
 
 const AppContent: React.FC = () => {
-  useFirebaseAuth(); // Usar el hook directamente
+  useFirebaseAuth();
 
   return (
     <BrowserRouter>

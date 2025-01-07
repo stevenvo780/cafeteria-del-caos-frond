@@ -83,9 +83,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp public/sitemap.xml build/sitemap.xml",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prebuild": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\" scripts/generateSitemap.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -115,6 +116,7 @@
     "@types/react-big-calendar": "^1.8.9",
     "@types/react-draft-wysiwyg": "^1.13.8",
     "@types/react-helmet": "^6.1.11",
-    "@types/react-slick": "^0.23.13"
+    "@types/react-slick": "^0.23.13",
+    "ts-node": "^10.9.2"
   }
 }
