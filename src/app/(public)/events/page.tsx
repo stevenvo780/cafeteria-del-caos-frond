@@ -7,10 +7,19 @@ export const metadata: Metadata = {
   description: 'Calendario de eventos y debates de la Cafetería del Caos',
   openGraph: {
     title: 'Eventos - Cafetería del Caos',
-    description: 'Participa en nuestros eventos semanales de debates incendiarios y lecturas mentalmente estimulantes',
+    description: 'Participa en nuestros eventos semanales como debates incendiarios o lecturas mentalmente estimulantes y mucho mas!',
     type: 'website',
   },
-  keywords: ['eventos', 'debates', 'Cafetería del Caos', 'lecturas semanales'],
+  keywords: [
+    'eventos',
+    'debates',
+    'Cafetería del Caos',
+    'lecturas semanales',
+    'encuentros',
+    'charlas',
+    'conferencias',
+    'panel',
+  ],
   alternates: {
     canonical: 'https://cafeteriadelcaos.com/events',
   }

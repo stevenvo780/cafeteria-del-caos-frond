@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     const event = await getEvent(resolvedParams.id);
     const startDate = moment.utc(event.startDate).local();
     const formattedDate = startDate.format('LL [a las] LT');
-    const description = `${event.title} - ${formattedDate}. ${event.description.replace(/<[^>]*>/g, '').substring(0, 155)}...`;
+    const description = `${event.title} - ${formattedDate}. ${event.description.replace(/<[^>]*>/g, '').substring(0, 255)}...`;
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const imageUrl = event.imageUrl || `${siteUrl}/og-image.jpg`;
 

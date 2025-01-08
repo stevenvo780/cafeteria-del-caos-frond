@@ -64,7 +64,6 @@ const RankingClient: React.FC = () => {
     fetchUsers();
   }, [page, searchTerm, sortConfig]);
 
-  // Funciones auxiliares
   const handleSort = (key: 'points' | 'coins' | 'experience') => {
     setSortConfig(prevConfig => ({
       key,
@@ -74,9 +73,9 @@ const RankingClient: React.FC = () => {
 
   const getMedalColor = (index: number) => {
     switch (index) {
-      case 0: return '#FFD700'; // Oro
-      case 1: return '#C0C0C0'; // Plata
-      case 2: return '#CD7F32'; // Bronce
+      case 0: return '#FFD700';
+      case 1: return '#C0C0C0';
+      case 2: return '#CD7F32';
       default: return '#FFFFFF';
     }
   };

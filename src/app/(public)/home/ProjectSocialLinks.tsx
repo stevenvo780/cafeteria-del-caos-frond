@@ -8,7 +8,7 @@ const ProjectSocialLinks: React.FC = () => {
     <div style={{ marginTop: '1rem', padding: '1rem' }}>
       <h5>Nuestras Redes</h5>
       <Row className="text-center" style={{ marginTop: '1rem' }}>
-        <Col xs={4} sm={3}>
+        <Col xs={3} sm={3}>
           <a
             href="https://www.facebook.com/share/18ZfbANxtt/?mibextid=qi2Omg"
             target="_blank"
@@ -17,7 +17,7 @@ const ProjectSocialLinks: React.FC = () => {
             <FaFacebookF size={30} />
           </a>
         </Col>
-        <Col xs={4} sm={3}>
+        <Col xs={3} sm={3}>
           <a
             href="https://www.tiktok.com/@cafeteriadelcaos?_t=ZM-8ss70SvHI2v&_r=1"
             target="_blank"
@@ -26,7 +26,7 @@ const ProjectSocialLinks: React.FC = () => {
             <FaTiktok size={30} />
           </a>
         </Col>
-        <Col xs={4} sm={3}>
+        <Col xs={3} sm={3}>
           <a
             href="https://youtube.com/@cafeteriadelcaos?si=mcShGmbDcyEg2tUq"
             target="_blank"
@@ -35,7 +35,7 @@ const ProjectSocialLinks: React.FC = () => {
             <FaYoutube size={30} />
           </a>
         </Col>
-        <Col xs={4} sm={3}>
+        <Col xs={3} sm={3}>
           <a
             href="https://x.com/CafeteriaCaos?t=yI2qsHEdFY7cKRA4zZDEjQ&s=09"
             target="_blank"

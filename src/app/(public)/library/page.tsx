@@ -30,11 +30,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       return {
         ...baseMetadata,
         title: `${note.data.title} | Biblioteca`,
-        description: note.data.description.substring(0, 160),
+        description: note.data.description.substring(0, 255),
         openGraph: {
           ...baseMetadata.openGraph,
           title: `${note.data.title} | Biblioteca`,
-          description: note.data.description.substring(0, 160),
+          description: note.data.description.substring(0, 255),
           url: `${process.env.NEXT_PUBLIC_SITE_URL}/library/${id}`,
         }
       };
