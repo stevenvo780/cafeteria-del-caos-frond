@@ -4,7 +4,7 @@ import RegisterClient from './RegisterClient';
 
 export const metadata: Metadata = {
   title: 'Registro',
-  description: 'Únete a la comunidad de debate más caótica',
+  description: 'Únete a la Cafetería del Caos y participa en debates intensos',
   robots: {
     index: false,
     follow: false,

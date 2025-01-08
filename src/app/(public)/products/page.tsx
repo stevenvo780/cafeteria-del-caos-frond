@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import ProductsClient from './ProductsClient';
-// ...existing code...
 
 export const metadata: Metadata = {
   title: 'Productos - Cafetería del Caos',
@@ -16,9 +15,7 @@ export const metadata: Metadata = {
   }
 };
 
-// ...existing code...
 
 export default function ProductsPage() {
   return <ProductsClient />;
 }
-// ...existing code...
