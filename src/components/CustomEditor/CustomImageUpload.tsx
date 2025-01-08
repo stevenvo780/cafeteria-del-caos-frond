@@ -1,8 +1,9 @@
+'use client';
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { storage } from '../../utils/firebase';
 import { EditorState, AtomicBlockUtils } from 'draft-js';
-import { FaImage } from 'react-icons/fa'; // Importar el icono de imagen
+import { FaImage } from 'react-icons/fa';
 
 interface CustomImageUploadProps {
   editorState: EditorState;
@@ -34,7 +35,6 @@ const CustomImageUpload: React.FC<CustomImageUploadProps> = ({ editorState, onEd
       await fileRef.put(imageFile);
       const fileUrl = await fileRef.getDownloadURL();
 
-      // Insert the image into the editor
       const contentState = editorState.getCurrentContent();
       const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', { src: fileUrl });
       const entityKey = contentStateWithEntity.getLastCreatedEntityKey();

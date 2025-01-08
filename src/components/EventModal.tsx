@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { Events, Repetition } from '../utils/types';
@@ -30,16 +31,15 @@ const EventModal: React.FC<EventModalProps> = ({
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [repetition, setRepetition] = useState<Repetition>(Repetition.NONE);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
 
   useEffect(() => {
     if (selectedEvent) {
       setTitle(selectedEvent.title);
       setDescription(selectedEvent.description);
-      const start = new Date(selectedEvent.startDate);
-      const end = selectedEvent.endDate ? new Date(selectedEvent.endDate) : new Date(start.getTime() + 3 * 60 * 60 * 1000);
-      setStartDate(start);
-      setEndDate(end);
+      setStartDate(moment.utc(selectedEvent.startDate).local().toDate());
+      setEndDate(moment.utc(selectedEvent.endDate).local().toDate());
       setRepetition(selectedEvent.repetition || Repetition.NONE);
     }
   }, [selectedEvent]);
@@ -53,15 +53,25 @@ const EventModal: React.FC<EventModalProps> = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     
-    const currentDate = new Date();
+    if (!startDate || !endDate) return;
 
-    if ( (selectedEvent && selectedEvent.repetition === Repetition.NONE) && (startDate && startDate < currentDate)) {
-      dispatch(addNotification({ message: 'La fecha de inicio no puede ser anterior a la fecha actual', color: 'danger' }));
+    const currentDate = new Date();
+    const startDateTime = moment(startDate).utc().toDate();
+    const endDateTime = moment(endDate).utc().toDate();
+
+    if ((selectedEvent?.repetition === Repetition.NONE) && startDateTime < currentDate) {
+      dispatch(addNotification({ 
+        message: 'La fecha de inicio no puede ser anterior a la fecha actual', 
+        color: 'danger' 
+      }));
       return;
     }
 
-    if (endDate && startDate && endDate < startDate) {
-      dispatch(addNotification({ message: 'La fecha de fin no puede ser anterior a la fecha de inicio', color: 'danger' }));
+    if (endDateTime < startDateTime) {
+      dispatch(addNotification({ 
+        message: 'La fecha de fin no puede ser anterior a la fecha de inicio', 
+        color: 'danger' 
+      }));
       return;
     }
 
@@ -70,25 +80,36 @@ const EventModal: React.FC<EventModalProps> = ({
         ...selectedEvent,
         title,
         description,
-        startDate: moment(startDate!).utc().format(),
-        endDate: moment(endDate!).utc().format(),
+        startDate: startDateTime.toISOString(),
+        endDate: endDateTime.toISOString(),
+        eventDate: startDateTime.toISOString(),
         repetition,
-      } as unknown as Events;
-      if (isEditing && selectedEvent && selectedEvent.id !== null) {
+      };
 
+      if (isEditing && selectedEvent?.id) {
         await api.patch(`/events/${selectedEvent.id}`, eventData);
         dispatch(updateEvent(eventData));
-        dispatch(addNotification({ message: 'Evento actualizado correctamente', color: 'success' }));
+        dispatch(addNotification({ 
+          message: 'Evento actualizado correctamente', 
+          color: 'success' 
+        }));
       } else {
-
         const response = await api.post('/events', eventData);
         dispatch(addEvent(response.data));
-        dispatch(addNotification({ message: 'Evento creado correctamente', color: 'success' }));
+        dispatch(addNotification({ 
+          message: 'Evento creado correctamente', 
+          color: 'success' 
+        }));
       }
+      
       fetchEvents();
       setShowModal(false);
     } catch (error) {
-      dispatch(addNotification({ message: 'Error al guardar el evento', color: 'danger' }));
+      console.error('Error saving event:', error);
+      dispatch(addNotification({ 
+        message: 'Error al guardar el evento', 
+        color: 'danger' 
+      }));
     }
   };
 
@@ -101,6 +122,7 @@ const EventModal: React.FC<EventModalProps> = ({
         fetchEvents();
         setShowModal(false);
       } catch (error) {
+        console.error('Error deleting event:', error);
         dispatch(addNotification({ message: 'Error al eliminar el evento', color: 'danger' }));
       }
     }

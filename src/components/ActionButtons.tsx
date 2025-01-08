@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { FaThumbsUp, FaThumbsDown, FaShareAlt } from 'react-icons/fa';
 import { Like } from '../utils/types';

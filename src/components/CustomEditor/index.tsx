@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 import React, { useEffect, useState, useRef } from 'react';
 import { Editor as TinyMCEEditor } from '@tinymce/tinymce-react';
 import EditorCode from 'react-simple-code-editor';

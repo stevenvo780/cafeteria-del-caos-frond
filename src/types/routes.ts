@@ -1,17 +1,25 @@
-export interface SEOMetadata {
+export interface SeoConfig {
   title: string;
   description: string;
-  image?: string;
-  keywords: string;
-  type: string;
+  keywords?: string;
+  type?: string;
   robots?: string;
+  image?: string;
 }
 
 export interface RouteConfig {
   path: string;
-  element: string;
   name: string;
+  element?: string;
   viewHeader: boolean;
   hidden: boolean;
-  seo: SEOMetadata;
+  protected?: boolean;
+  seo?: SeoConfig;
+}
+
+export interface RoutesConfig {
+  publicRoutes: RouteConfig[];
+  roleRoutes: {
+    [key: string]: RouteConfig[];
+  };
 }
