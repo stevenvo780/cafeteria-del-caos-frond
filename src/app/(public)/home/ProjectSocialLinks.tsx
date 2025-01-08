@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { FaFacebookF, FaTiktok, FaYoutube, FaTwitter, FaGlobe } from 'react-icons/fa';
+import { FaFacebookF, FaTiktok, FaYoutube, FaTwitter } from 'react-icons/fa';
 
 const ProjectSocialLinks: React.FC = () => {
   return (
