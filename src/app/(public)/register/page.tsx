@@ -61,7 +61,7 @@ const RegisterPage: React.FC = () => {
       if (user && user.email) {
         await user.updateProfile({ displayName: name });
         dispatch(addNotification({ message: 'Registro exitoso', color: 'success' }));
-        navigate('/Login');
+        navigate('/login');
       }
     } catch (error: any) {
       dispatch(addNotification({ message: error?.message || 'El registro ha fallado', color: 'danger' }));
