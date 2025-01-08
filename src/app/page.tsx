@@ -11,6 +11,8 @@ export const metadata: Metadata = {
     description: 'Un espacio para debates sin filtros y pensamiento libre',
     type: 'website',
     url: process.env.NEXT_PUBLIC_SITE_URL,
+    siteName: 'Cafetería del Caos',
+    locale: 'es_ES',
     images: [
       {
         url: '/images/logo.png',
@@ -19,6 +21,12 @@ export const metadata: Metadata = {
         alt: 'Logo de Cafetería del Caos',
       }
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cafetería del Caos',
+    description: 'Un espacio para debates sin filtros y pensamiento libre',
+    images: ['/images/logo.png'],
   }
 };
 
