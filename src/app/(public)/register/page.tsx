@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Registro - Cafetería del Caos',
     description: 'Crea tu cuenta y forma parte de los debates más intensos',
+  },
+  keywords: ['registro', 'crear cuenta', 'debate', 'Cafetería del Caos'],
+  alternates: {
+    canonical: 'https://cafeteriadelcaos.com/register',
   }
 };
 

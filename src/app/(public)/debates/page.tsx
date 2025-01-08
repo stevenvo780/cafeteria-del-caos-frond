@@ -1,22 +1,16 @@
-'use client';
+import { Metadata } from 'next';
 import React from 'react';
-import { Container } from 'react-bootstrap';
-import "./styles.css";
+import DebatesClient from './DebatesClient';
 
-const DebatesView: React.FC = () => {
-  return (
-    <Container fluid className="p-0">
-      <div className="iframe-container">
-        <iframe
-          src="https://orquestador-debates.vercel.app/"
-          className="debates-iframe"
-          title="Debates"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-    </Container>
-  );
+export const metadata: Metadata = {
+  title: 'Debates',
+  description: 'Espacio de debates de la Cafetería del Caos',
+  openGraph: {
+    title: 'Debates - Cafetería del Caos',
+    description: 'Participa en nuestros debates y discusiones',
+  }
 };
 
-export default DebatesView;
+export default function DebatesPage() {
+  return <DebatesClient />;
+}
