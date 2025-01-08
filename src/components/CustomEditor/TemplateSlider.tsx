@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 import React, { useState, useEffect } from 'react';
 import { Container, Col, Card } from 'react-bootstrap';
 import Slider from 'react-slick';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import axios from '../../utils/axios';
+import axios from '@/utils/axios';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -49,6 +51,7 @@ const TemplateSlider: React.FC<TemplateSliderProps> = ({ templateType, onTemplat
           setError('Error al cargar templates');
         }
       } catch (error) {
+        console.error('Error fetching templates:', error);
         setError('Error al cargar templates');
       } finally {
         setLoading(false);

@@ -1,3 +1,4 @@
+'use client';
 import { combineReducers } from '@reduxjs/toolkit';
 import auth from './auth';
 import events from './events';

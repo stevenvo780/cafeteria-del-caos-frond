@@ -31,15 +31,17 @@ export enum Repetition {
   MONTHLY = 'monthly',
   YEARLY = 'yearly',
 }
+
 export interface Events extends SharedProp {
   id?: number | null;
   title: string;
   description: string;
-  eventDate: Date;
-  startDate: Date;
-  endDate: Date;
+  eventDate: string;
+  startDate: string;
+  endDate: string;
   author?: User;
   repetition?: Repetition;
+  imageUrl?: string;
 }
 
 export interface CreateEventDto {
@@ -54,14 +56,17 @@ export interface CreateEventDto {
 export interface CalendarEvent {
   id?: number | null;
   title: string;
-  start: Date | string;
-  end: Date | string;
+  start: string;
+  end: string;
   allDay?: boolean;
   url?: string;
   classNames?: string[];
   editable?: boolean;
   extendedProps?: {
     description?: string;
+    repetition?: Repetition;
+    originalStart?: string;
+    originalEnd?: string;
   };
 }
 
@@ -80,6 +85,11 @@ export interface Library extends SharedProp {
   parent?: Library;
   children?: Library[];
   visibility: LibraryVisibility;
+}
+
+export interface LibraryReference {
+  id: number;
+  title: string;
 }
 
 export enum TemplateType {
@@ -138,7 +148,7 @@ export interface CreatePublicationDto {
   content: string;
 }
 
-export interface  SharedProp {
+export interface SharedProp {
   createdAt?: string;
   updatedAt?: string;
 }

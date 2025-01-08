@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import { Alert } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
