@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     locale: 'es_ES',
     images: [
       {
-        url: '/images/logo.png',
+        url: '/images/camaron_margen.png',
         width: 1200,
         height: 630,
         alt: 'Logo de Cafetería del Caos',
