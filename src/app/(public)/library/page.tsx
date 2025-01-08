@@ -21,12 +21,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: 'Explora nuestra biblioteca de conocimiento',
       type: 'website',
       url: `${baseUrl}/library`,
-      images: [{
-        url: '/images/logo.png',
-        width: 800,
-        height: 600,
-        alt: 'Cafetería del Caos',
-      }]
     }
   };
 
