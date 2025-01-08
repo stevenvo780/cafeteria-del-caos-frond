@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     title: 'Eventos - Cafetería del Caos',
     description: 'Participa en nuestros eventos semanales como debates incendiarios o lecturas mentalmente estimulantes y mucho mas!',
     type: 'website',
+    images: [],
   },
   keywords: [
     'eventos',
