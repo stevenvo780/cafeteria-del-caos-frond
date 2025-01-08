@@ -49,6 +49,18 @@
       }
     },
     {
+      "path": "/normativaStaff",
+      "name": "Normativa Staff",
+      "viewHeader": true,
+      "hidden": false,
+      "seo": {
+        "title": "Normativas | Reglas del Caos Organizado",
+        "description": "Conoce las reglas que mantienen el equilibrio en nuestro caos. Moderación ligera pero firme para mantener un espacio de debate respetuoso y productivo.",
+        "keywords": "normativas, reglas, moderación, respeto, límites, convivencia",
+        "type": "article"
+      }
+    },
+    {
       "path": "/about",
       "name": "Nosotros",
       "viewHeader": true,
