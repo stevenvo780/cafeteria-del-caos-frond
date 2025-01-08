@@ -32,12 +32,6 @@ export const metadata: Metadata = {
         height: 630,
         alt: 'Logo de Cafetería del Caos',
       },
-      {
-        url: '/images/login.webp',
-        width: 1200,
-        height: 630,
-        alt: 'Epicentro del caos intelectual',
-      }
     ]
   },
   twitter: {
