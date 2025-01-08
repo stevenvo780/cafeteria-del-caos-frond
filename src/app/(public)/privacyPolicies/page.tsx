@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Políticas de Privacidad - Cafetería del Caos',
     description: 'Conoce nuestras políticas sobre el manejo de datos y privacidad',
+    images: [],
   },
   keywords: ['privacidad', 'políticas', 'datos personales', 'Cafetería del Caos'],
   alternates: {
