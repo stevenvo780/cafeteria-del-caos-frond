@@ -2,7 +2,6 @@
   "publicRoutes": [
     {
       "path": "/",
-      "element": "Home",
       "name": "Inicio",
       "viewHeader": true,
       "hidden": false,
@@ -15,7 +14,6 @@
     },
     {
       "path": "/library",
-      "element": "Library",
       "name": "Biblioteca",
       "viewHeader": true,
       "hidden": false,
@@ -28,7 +26,6 @@
     },
     {
       "path": "/events",
-      "element": "Events",
       "name": "Eventos",
       "viewHeader": true,
       "hidden": false,
@@ -41,7 +38,6 @@
     },
     {
       "path": "/normativa",
-      "element": "Normativa",
       "name": "Normativa",
       "viewHeader": true,
       "hidden": false,
@@ -54,7 +50,6 @@
     },
     {
       "path": "/about",
-      "element": "About",
       "name": "Nosotros",
       "viewHeader": true,
       "hidden": false,
@@ -67,7 +62,6 @@
     },
     {
       "path": "/debates",
-      "element": "Debates",
       "name": "Debates",
       "viewHeader": true,
       "hidden": true,
@@ -80,7 +74,6 @@
     },
     {
       "path": "/products",
-      "element": "Products",
       "name": "Tienda",
       "viewHeader": true,
       "hidden": true,
@@ -93,7 +86,6 @@
     },
     {
       "path": "/ranking",
-      "element": "Ranking",
       "name": "Ranking",
       "viewHeader": true,
       "hidden": true,
@@ -106,7 +98,6 @@
     },
     {
       "path": "/login",
-      "element": "Login",
       "name": "Login",
       "viewHeader": false,
       "hidden": false,
@@ -120,7 +111,6 @@
     },
     {
       "path": "/register",
-      "element": "Register",
       "name": "Registrarse",
       "viewHeader": false,
       "hidden": false,
@@ -133,7 +123,6 @@
     },
     {
       "path": "/events/[id]",
-      "element": "EventDetail",
       "name": "Detalle de Evento",
       "viewHeader": false,
       "hidden": false,
@@ -146,7 +135,6 @@
     },
     {
       "path": "/privacyNotice",
-      "element": "PrivacyNoticePage",
       "name": "Aviso de Privacidad",
       "viewHeader": false,
       "hidden": false,
@@ -159,7 +147,6 @@
     },
     {
       "path": "/privacyPolicies",
-      "element": "PrivacyPoliciesPage",
       "name": "Políticas de Privacidad",
       "viewHeader": false,
       "hidden": true,
