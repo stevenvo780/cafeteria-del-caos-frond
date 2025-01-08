@@ -22,7 +22,7 @@ const Header: React.FC = () => {
   };
 
   const handleLoginRedirect = () => {
-    router.push('/Login');
+    router.push('/login');
   };
 
   const publicRoutes = routesConfig.publicRoutes;

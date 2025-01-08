@@ -10,7 +10,6 @@ export interface SeoConfig {
 export interface RouteConfig {
   path: string;
   name: string;
-  element?: string;
   viewHeader: boolean;
   hidden: boolean;
   protected?: boolean;
