@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     title: 'Normativa General - Cafetería del Caos',
     description: 'Conoce nuestras normas y regulaciones para mantener un espacio de debate saludable',
     images: [],
+  },
+  twitter: {
+    images: [],
   }
 };
 

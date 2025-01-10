@@ -8,6 +8,10 @@ export const metadata: Metadata = {
     title: 'Productos - Cafetería del Caos',
     description: 'Descubre la variedad de productos que ofrecemos en la Cafetería del Caos',
     url: 'https://cafeteriadelcaos.com/products',
+    images: [],
+  },
+  twitter: {
+    images: [],
   },
   keywords: ['productos', 'cafetería', 'Cafetería del Caos', 'menú'],
   alternates: {

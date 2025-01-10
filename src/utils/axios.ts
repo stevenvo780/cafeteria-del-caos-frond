@@ -10,6 +10,10 @@ console.log('API URL:', env.NEXT_PUBLIC_API_URL);
 
 const api = axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }
 });
 
 let activeCalls = 0;

@@ -9,6 +9,10 @@ export const metadata: Metadata = {
     title: 'Ranking y Recompensas - Cafetería del Caos',
     description: 'Descubre nuestro sistema de recompensas y ranking. Gana puntos, obtén reconocimientos y asciende en la comunidad.',
     type: 'website',
+    images: [],
+  },
+  twitter: {
+    images: [],
   },
   keywords: ['ranking', 'recompensas', 'puntos', 'Cafetería del Caos'],
   alternates: {
