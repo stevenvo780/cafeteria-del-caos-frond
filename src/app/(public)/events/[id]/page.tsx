@@ -3,42 +3,28 @@ export const revalidate = 0;
 
 import moment from 'moment';
 import { notFound } from 'next/navigation';
-import EventDetailClient from './EventDetailClient';
-import { headers } from 'next/headers';
 import { Suspense } from 'react';
-
-async function getHeadersObject() {
-  const headersList = await headers();
-  const headersObject: { [key: string]: string } = {};
-  for (const [key, value] of headersList.entries()) {
-    headersObject[key] = value;
-  }
-  return headersObject;
-}
+import axiosServer from '@/utils/axiosServer';
+import EventDetailClient from './EventDetailClient';
 
 async function getEvent(eventId: string) {
-  const baseUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${baseUrl}/events/${eventId}`, {
-    cache: 'no-store',
-    headers: await getHeadersObject()
-  });
-
-  if (!response.ok) {
-    if (response.status === 404) notFound();
+  try {
+    const response = await axiosServer.get(`/events/${eventId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Event not found:', error);
     throw new Error('Failed to fetch event');
   }
-  return response.json();
 }
 
 async function getUpcomingEvents() {
-  const baseUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${baseUrl}/events/home/upcoming?limit=31`, {
-    cache: 'no-store',
-    headers: await getHeadersObject()
-  });
-
-  if (!response.ok) throw new Error('Failed to fetch upcoming events');
-  return response.json();
+  try {
+    const response = await axiosServer.get('/events/home/upcoming?limit=31');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching upcoming events:', error);
+    throw new Error('Failed to fetch upcoming events');
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {

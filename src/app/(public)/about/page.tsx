@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sobre Nosotros - Cafetería del Caos',
     description: 'Conoce más sobre nuestra comunidad y proyecto',
+    images: []
   }
 };
 

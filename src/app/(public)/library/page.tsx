@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Metadata } from 'next';
-import serverApi from '@/utils/serverApi';
+import axios from '@/utils/axiosServer';
 import ClientLibrary from './ClientLibrary';
 import { Library, Like } from '@/utils/types';
 
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (id) {
     try {
-      const note = await serverApi.get<Library>(`/library/${id}`);
+      const note = await axios.get<Library>(`/library/${id}`);
       return {
         ...baseMetadata,
         title: `${note.data.title} | Biblioteca`,
@@ -50,9 +50,9 @@ async function getInitialData(noteId?: string) {
   try {
     if (noteId) {
       const [noteResponse, likesResponse, userLikeResponse] = await Promise.all([
-        serverApi.get<Library>(`/library/${noteId}`),
-        serverApi.get(`/likes/library/${noteId}/count`),
-        serverApi.get(`/likes/library/${noteId}/user-like`)
+        axios.get<Library>(`/library/${noteId}`),
+        axios.get(`/likes/library/${noteId}/count`),
+        axios.get(`/likes/library/${noteId}/user-like`)
       ]);
 
       return {
@@ -68,14 +68,14 @@ async function getInitialData(noteId?: string) {
         }
       };
     } else {
-      const librariesResponse = await serverApi.get('/library', {
+      const librariesResponse = await axios.get('/library', {
         params: { page: 1, limit: 50 }
       });
 
       const likesPromises = librariesResponse.data.data.map(async (library: Library) => {
         const [likesCount, userLike] = await Promise.all([
-          serverApi.get(`/likes/library/${library.id}/count`),
-          serverApi.get(`/likes/library/${library.id}/user-like`)
+          axios.get(`/likes/library/${library.id}/count`),
+          axios.get(`/likes/library/${library.id}/user-like`)
         ]);
         return {
           id: library.id,

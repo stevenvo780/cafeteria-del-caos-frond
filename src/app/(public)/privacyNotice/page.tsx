@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     description: 'Información sobre cómo manejamos tus datos personales',
     images: [],
   },
+  twitter: {
+    images: [],
+  },
   keywords: ['privacidad', 'datos personales', 'aviso legal', 'Cafetería del Caos'],
   alternates: {
     canonical: 'https://cafeteriadelcaos.com/privacy-notice',

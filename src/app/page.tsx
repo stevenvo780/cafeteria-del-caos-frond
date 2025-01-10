@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import ClientHome from './(public)/home/ClientHome';
-import serverApi from '@/utils/serverApi';
+import axios from '@/utils/axiosServer';
 
 export const metadata: Metadata = {
   title: 'Cafetería del Caos | Debate, Filosofía y Pensamiento Libre',
@@ -67,16 +67,18 @@ export const metadata: Metadata = {
 async function getInitialData() {
   try {
     const [publicationsRes, eventsRes, notesRes, guildMembersRes] = await Promise.all([
-      serverApi.get('/publications', { params: { limit: 4, offset: 0 } }),
-      serverApi.get('/events/home/upcoming?limit=31'),
-      serverApi.get('/library/home/latest?limit=3'),
-      serverApi.get('/discord/guild/members')
+      axios.get('/publications', { params: { limit: 4, offset: 0 } }),
+      axios.get('/events/home/upcoming?limit=31'),
+      axios.get('/library/home/latest?limit=3'),
+      axios.get('/discord/guild/members')
     ]);
 
     return {
       initialPublications: publicationsRes.data,
-      repetitiveEvents: eventsRes.data.filter(event => event.repetition),
-      uniqueEvents: eventsRes.data.filter(event => !event.repetition).slice(0, 3),
+      events: {
+        repetitive: eventsRes.data.filter((event) => event.repetition),
+        unique: eventsRes.data.filter((event) => !event.repetition).slice(0, 3)
+      },
       latestNotes: notesRes.data,
       guildMemberCount: guildMembersRes.data
     };
@@ -84,8 +86,7 @@ async function getInitialData() {
     console.error('Error fetching initial data:', error);
     return {
       initialPublications: [],
-      repetitiveEvents: [],
-      uniqueEvents: [],
+      events: { repetitive: [], unique: [] },
       latestNotes: [],
       guildMemberCount: null
     };
