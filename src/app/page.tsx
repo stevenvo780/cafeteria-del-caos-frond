@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import ClientHome from './(public)/home/ClientHome';
 import axios from '@/utils/axiosServer';
+import ClientHome from './(public)/home/ClientHome';
 
 export const metadata: Metadata = {
   title: 'Cafetería del Caos | Debate, Filosofía y Pensamiento Libre',
@@ -64,6 +64,7 @@ export const metadata: Metadata = {
   }
 };
 
+// -- SSR data fetching with fallback to avoid missing data
 async function getInitialData() {
   try {
     const [publicationsRes, eventsRes, notesRes, guildMembersRes] = await Promise.all([
@@ -74,13 +75,15 @@ async function getInitialData() {
     ]);
 
     return {
-      initialPublications: publicationsRes.data,
+      initialPublications: publicationsRes.data || [],
       events: {
-        repetitive: eventsRes.data.filter((event) => event.repetition),
-        unique: eventsRes.data.filter((event) => !event.repetition).slice(0, 3)
+        repetitive: eventsRes.data?.filter((event) => event.repetition) || [],
+        unique: eventsRes.data
+          ? eventsRes.data.filter((event) => !event.repetition).slice(0, 3)
+          : []
       },
-      latestNotes: notesRes.data,
-      guildMemberCount: guildMembersRes.data
+      latestNotes: notesRes.data || [],
+      guildMemberCount: guildMembersRes.data || null
     };
   } catch (error) {
     console.error('Error fetching initial data:', error);

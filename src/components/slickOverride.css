@@ -1,0 +1,17 @@
+/* /app/home/(public)/home/slickOverride.css */
+
+/* Override slick-dots to match the dark background */
+.sliderOverride .slick-dots li button:before {
+  /* Adjust size and color as needed */
+  font-size: 0.75rem;
+  color: #666; /* or tu color del fondo para que se "camuflen" */
+}
+
+.sliderOverride .slick-dots li.slick-active button:before {
+  color: #fff; /* color de punto activo */
+}
+
+/* Opcionalmente ajustar la posición de los dots */
+.sliderOverride .slick-dots {
+  bottom: -10px; /* ajusta según tu diseño */
+}
