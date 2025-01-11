@@ -4,7 +4,7 @@
 .sliderOverride .slick-dots li button:before {
   /* Adjust size and color as needed */
   font-size: 0.75rem;
-  color: #666; /* or tu color del fondo para que se "camuflen" */
+  color: #1A1A1A; /* or tu color del fondo para que se "camuflen" */
 }
 
 .sliderOverride .slick-dots li.slick-active button:before {
