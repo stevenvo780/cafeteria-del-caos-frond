@@ -1,18 +1,13 @@
-/* /app/home/(public)/home/slickOverride.css */
-
-/* Override slick-dots to match the dark background */
 .sliderOverride .slick-dots li button:before {
-  /* Adjust size and color as needed */
   font-size: 0.75rem;
-  color: var(--bg-color); /* Usar la variable del fondo global */
+  color: var(--bg-color);
 }
 
 .sliderOverride .slick-dots li.slick-active button:before {
-  color: var(--font-color); /* Usar la variable del texto global */
+  color: var(--font-color);
 }
 
-/* Opcionalmente ajustar la posición de los dots */
 .sliderOverride .slick-dots {
-  bottom: -10px; /* ajusta según tu diseño */
-  background-color: var(--bg-color); /* Usar la variable del fondo global */
+  bottom: -10px;
+  background-color: var(--bg-color);
 }

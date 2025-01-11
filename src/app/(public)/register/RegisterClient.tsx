@@ -137,7 +137,7 @@ const RegisterClient: React.FC = () => {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 {/* Campos del formulario */}
-                <Form.Group controlId="formBasicName">
+                <Form.Group controlId="formBasicName" className="mb-3">
                   <InputGroup>
                     <Form.Control
                       type="text"
@@ -152,8 +152,7 @@ const RegisterClient: React.FC = () => {
                   </InputGroup>
                 </Form.Group>
 
-                {/* ...resto de campos del formulario... */}
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="formBasicEmail" className="mb-3">
                   <InputGroup>
                     <Form.Control
                       type="email"
@@ -168,7 +167,7 @@ const RegisterClient: React.FC = () => {
                   </InputGroup>
                 </Form.Group>
 
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group controlId="formBasicPassword" className="mb-3">
                   <InputGroup>
                     <Form.Control
                       type="password"
@@ -181,6 +180,43 @@ const RegisterClient: React.FC = () => {
                       {errors.password}
                     </Form.Control.Feedback>
                   </InputGroup>
+                </Form.Group>
+
+                <Form.Group controlId="formBasicConfirmPassword" className="mb-3">
+                  <InputGroup>
+                    <Form.Control
+                      type="password"
+                      placeholder="Confirmar contraseña"
+                      value={formData.confirmPassword}
+                      onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                      isInvalid={!!errors.confirmPassword}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.confirmPassword}
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </Form.Group>
+
+                <Form.Group controlId="formBasicCheckbox" className="mb-3">
+                  <Form.Check
+                    type="checkbox"
+                    label={
+                      <span>
+                        He leído y acepto las {' '}
+                        <a href="/privacyPolicies" target="_blank" rel="noopener noreferrer">
+                          políticas de privacidad
+                        </a>
+                      </span>
+                    }
+                    checked={formData.acceptPolicies}
+                    onChange={(e) => setFormData({...formData, acceptPolicies: e.target.checked})}
+                    isInvalid={!!errors.acceptPolicies}
+                  />
+                  {errors.acceptPolicies && (
+                    <Form.Text className="text-danger">
+                      {errors.acceptPolicies}
+                    </Form.Text>
+                  )}
                 </Form.Group>
 
                 {/* Botones */}
