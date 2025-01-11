@@ -12,7 +12,6 @@ import { RiBookOpenLine, RiBookLine, RiArticleLine, RiPencilLine } from 'react-i
 import { useRouter } from 'next/navigation';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import './slickOverride.css';
 
 import { Events } from '@/utils/types';
