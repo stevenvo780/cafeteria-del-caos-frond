@@ -1,18 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// /app/home/(public)/home/ScrollableEvents.tsx
 'use client';
 import React from 'react';
 import Slider from 'react-slick';
 import { Card, Col } from 'react-bootstrap';
-import { FaBook, FaFeatherAlt, FaGlasses, FaNewspaper, FaPenFancy, FaScroll, FaUniversity, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { Events } from '../utils/types';
-import { useRouter } from 'next/navigation';
-import { BsBookHalf, BsBook, BsJournalBookmark, BsPen } from 'react-icons/bs';
+import { FaChevronLeft, FaChevronRight, FaBook, FaFeatherAlt, FaPenFancy, FaScroll, FaGlasses, FaUniversity, FaNewspaper } from 'react-icons/fa';
 import { GiBookshelf, GiBookmark, GiQuillInk, GiOpenBook, GiScrollUnfurled, GiBrain, GiSpellBook } from 'react-icons/gi';
 import { MdLibraryBooks, MdMenuBook, MdOutlineAutoStories, MdOutlineClass, MdOutlineSchool } from 'react-icons/md';
 import { IoBookSharp, IoSchoolSharp, IoJournal, IoNewspaperSharp } from 'react-icons/io5';
-import { RiArticleLine, RiBookLine, RiBookOpenLine, RiPencilLine } from 'react-icons/ri';
+import { BsBookHalf, BsBook, BsJournalBookmark, BsPen } from 'react-icons/bs';
+import { RiBookOpenLine, RiBookLine, RiArticleLine, RiPencilLine } from 'react-icons/ri';
+import { useRouter } from 'next/navigation';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+import './slickOverride.css';
+
+import { Events } from '@/utils/types';
 
 const iconList = [
   FaBook, FaFeatherAlt, FaPenFancy, FaScroll, FaGlasses, FaUniversity, FaNewspaper,
@@ -23,7 +26,7 @@ const iconList = [
   RiBookOpenLine, RiBookLine, RiArticleLine, RiPencilLine
 ];
 
-const CustomPrevArrow = (props: any) => {
+const CustomPrevArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <FaChevronLeft
@@ -34,7 +37,7 @@ const CustomPrevArrow = (props: any) => {
   );
 };
 
-const CustomNextArrow = (props: any) => {
+const CustomNextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <FaChevronRight
@@ -53,6 +56,7 @@ const ScrollableEvents: React.FC<ScrollableEventsProps> = ({ events }) => {
   const router = useRouter();
   let iconIndex = 0;
 
+  // -- Slider settings
   const settings = {
     dots: true,
     infinite: true,
@@ -61,6 +65,8 @@ const ScrollableEvents: React.FC<ScrollableEventsProps> = ({ events }) => {
     slidesToScroll: 1,
     nextArrow: <CustomNextArrow />,
     prevArrow: <CustomPrevArrow />,
+    // -- Make sure we add a custom class for overriding the dots
+    className: 'sliderOverride',
     responsive: [
       {
         breakpoint: 1024,
@@ -71,13 +77,6 @@ const ScrollableEvents: React.FC<ScrollableEventsProps> = ({ events }) => {
       },
       {
         breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -94,7 +93,7 @@ const ScrollableEvents: React.FC<ScrollableEventsProps> = ({ events }) => {
 
   return (
     <Slider {...settings}>
-      {events.length > 0 ? (
+      {events && events.length > 0 ? (
         events.map((event) => {
           const IconComponent = iconList[iconIndex % iconList.length];
           iconIndex++;
@@ -106,10 +105,7 @@ const ScrollableEvents: React.FC<ScrollableEventsProps> = ({ events }) => {
                   onClick={() => handleEventClick(event.id as number | null)}
                 >
                   <IconComponent size={82} style={{ marginBottom: '10px' }} />
-                  <Card
-                    className='card-events-home'
-                    style={{ minWidth: '100%', marginBottom: '10px' }}
-                  >
+                  <Card className='card-events-home' style={{ minWidth: '100%', marginBottom: '10px' }}>
                     <Card.Body className="d-flex flex-column align-items-center" style={{ padding: 5 }}>
                       <Card.Title>{event.title}</Card.Title>
                       <Card.Text>
