@@ -47,7 +47,7 @@ export const metadata = {
     description: 'Comunidad de debate y pensamiento libre donde las ideas más radicales encuentran su espacio.',
     creator: '@CafeteriaDelCaos',
     images: [{
-      url: '/images/logo.png',
+      url: '/images/camaron_margen.png',
       alt: 'Logo de Cafetería del Caos',
     }],
   },
