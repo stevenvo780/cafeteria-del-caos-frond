@@ -256,6 +256,19 @@
           "keywords": "plantillas, gestión de plantillas, administración",
           "type": "dashboard"
         }
+      },
+      {
+        "path": "/infractions",
+        "name": "Infracciones",
+        "protected": true,
+        "viewHeader": true,
+        "hidden": true,
+        "seo": {
+          "title": "Infracciones | Cafetería del Caos",
+          "description": "Administra las infracciones y sanciones de los usuarios.",
+          "keywords": "infracciones, sanciones, moderación, administración",
+          "type": "dashboard"
+        }
       }
     ]
   }
