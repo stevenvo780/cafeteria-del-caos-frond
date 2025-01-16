@@ -43,3 +43,9 @@ export interface BotConfig {
     saldo: string;
   };
 }
+
+export interface XpRole {
+  roleId: string;
+  name: string;
+  requiredXp: number;
+}

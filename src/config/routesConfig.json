@@ -271,6 +271,19 @@
         }
       },
       {
+        "path": "/xp-roles",
+        "name": "Roles de XP",
+        "protected": true,
+        "viewHeader": true,
+        "hidden": true,
+        "seo": {
+          "title": "Roles de XP | Cafetería del Caos",
+          "description": "Administra los roles de XP y sus beneficios.",
+          "keywords": "roles de XP, beneficios, moderación, administración",
+          "type": "dashboard"
+        }
+      },
+      {
         "path": "/bot-config",
         "name": "Configuración del Bot",
         "protected": true,
