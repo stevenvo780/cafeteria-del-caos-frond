@@ -269,6 +269,19 @@
           "keywords": "infracciones, sanciones, moderación, administración",
           "type": "dashboard"
         }
+      },
+      {
+        "path": "/bot-config",
+        "name": "Configuración del Bot",
+        "protected": true,
+        "viewHeader": true,
+        "hidden": true,
+        "seo": {
+          "title": "Configuración del Bot | Cafetería del Caos",
+          "description": "Configura las opciones y funcionalidades del bot de Discord.",
+          "keywords": "configuración bot, funcionalidades, opciones",
+          "type": "dashboard"
+        }
       }
     ]
   }

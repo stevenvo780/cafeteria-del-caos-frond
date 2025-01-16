@@ -1,11 +1,12 @@
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-import moment from 'moment';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import axiosServer from '@/utils/axiosServer';
 import EventDetailClient from './EventDetailClient';
+import { convertToCalendarEvent } from '../EventUtils';
+import moment from 'moment';
 
 async function getEvent(eventId: string) {
   try {
@@ -31,9 +32,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const resolvedParams = await params;
   try {
     const event = await getEvent(resolvedParams.id);
-    const startDate = moment.utc(event.startDate).local();
-    const formattedDate = startDate.format('LL [a las] LT');
-    const description = `${event.title} - ${formattedDate}. ${event.description.replace(/<[^>]*>/g, '').substring(0, 255)}...`;
+    const calendarEvent = convertToCalendarEvent(event);
+    const description = `${event.title} - ${moment(calendarEvent.start).format('LLL')}. ${event.description.replace(/<[^>]*>/g, '').substring(0, 255)}...`;
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const imageUrl = event.imageUrl || `${siteUrl}/og-image.jpg`;
 
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         description: description,
         url: `${siteUrl}/events/${resolvedParams.id}`,
         type: 'article',
-        publishedTime: event.startDate,
+        publishedTime: calendarEvent.start,
         images: [{
           url: imageUrl,
           width: 1200,
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         title: event.title,
         description: description,
         images: [imageUrl],
-      },
+      }
     };
   } catch {
     return {
@@ -84,9 +84,6 @@ async function EventLoader({ params }: { params: Promise<{ id: string }> }) {
     if (!eventData) {
       notFound();
     }
-
-    eventData.startDate = moment.utc(eventData.startDate).local().toISOString();
-    eventData.endDate = moment.utc(eventData.endDate).local().toISOString();
 
     return (
       <EventDetailClient

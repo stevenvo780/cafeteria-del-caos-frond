@@ -41,6 +41,11 @@ const InfractionsPage: React.FC = () => {
 
   const handleSubmit = async (infraction: InfractionDto) => {
     setIsLoading(true);
+    if (!selectedInfraction && infractions.some(inf => inf.value === infraction.value)) {
+      dispatch(addNotification({ message: 'Ya existe una sanción con ese valor', color: 'danger' }));
+      setIsLoading(false);
+      return;
+    }
     try {
       const currentConfig = await api.get('/config/infractions');
       const updatedInfractions = selectedInfraction
@@ -69,7 +74,7 @@ const InfractionsPage: React.FC = () => {
   const handleDeleteClick = async (value: string) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta sanción?')) {
       try {
-        const currentConfig = await api.get('/config');
+        const currentConfig = await api.get('/config/infractions');
         const updatedInfractions = infractions.filter(inf => inf.value !== value);
 
         await api.patch('/config', {

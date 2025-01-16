@@ -3,10 +3,10 @@ import React from 'react';
 import DebatesClient from './DebatesClient';
 
 export const metadata: Metadata = {
-  title: 'Debates',
-  description: 'Orquestador  de debates de la Cafetería del Caos',
+  title: 'Orquestador de charlas',
+  description: 'Orquestador de debates de la Cafetería del Caos',
   openGraph: {
-    title: 'Debates - Cafetería del Caos',
+    title: 'Orquestador de charlas - Cafetería del Caos',
     description: 'Participa en nuestros debates y discusiones',
   }
 };
