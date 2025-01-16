@@ -64,9 +64,9 @@ export const metadata: Metadata = {
   }
 };
 
-// -- SSR data fetching with fallback to avoid missing data
 async function getInitialData() {
   try {
+    console.log(process.env.SITE_URL);
     const [publicationsRes, eventsRes, notesRes, guildMembersRes] = await Promise.all([
       axios.get('/publications', { params: { limit: 4, offset: 0 } }),
       axios.get('/events/home/upcoming?limit=31'),
