@@ -44,7 +44,7 @@ const DiscordIdInput: React.FC<DiscordIdInputProps> = ({
         </Col>
       </Row>
       <ListGroup className="mt-2">
-        {values.map((val, idx) => (
+        {values?.map((val, idx) => (
           <ListGroup.Item key={idx}>
             {val}
             <Button
