@@ -72,18 +72,18 @@ const BotConfigForm: React.FC<BotConfigFormProps> = ({
             <Row>
               <Col>
                 <DiscordIdInput
-                  label="Canales Permitidos"
-                  values={formData.rewards.messages.allowedChannels}
+                  label="Canales Excluidos"
+                  values={formData.rewards.messages.excludedChannels}
                   onAdd={(value) =>
-                    handleChange(['rewards','messages','allowedChannels'], [
-                      ...formData.rewards.messages.allowedChannels,
+                    handleChange(['rewards', 'messages', 'excludedChannels'], [
+                      ...formData.rewards.messages.excludedChannels,
                       value
                     ])
                   }
                   onRemove={(value) =>
                     handleChange(
-                      ['rewards','messages','allowedChannels'],
-                      formData.rewards.messages.allowedChannels.filter(v => v !== value)
+                      ['rewards', 'messages', 'excludedChannels'],
+                      formData.rewards.messages.excludedChannels.filter(v => v !== value)
                     )
                   }
                 />
@@ -93,6 +93,56 @@ const BotConfigForm: React.FC<BotConfigFormProps> = ({
         </Accordion.Item>
 
         <Accordion.Item eventKey="1">
+          <Accordion.Header>Canales Especiales</Accordion.Header>
+          <Accordion.Body>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Cantidad de mensajes necesarios</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={formData.rewards.specialChannels.amount}
+                    onChange={(e) => handleChange(['rewards', 'specialChannels', 'amount'], Number(e.target.value))}
+                    min="1"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Monedas por recompensa</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={formData.rewards.specialChannels.coins}
+                    onChange={(e) => handleChange(['rewards', 'specialChannels', 'coins'], Number(e.target.value))}
+                    min="1"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <DiscordIdInput
+                  label="Canales Especiales"
+                  values={formData.rewards.specialChannels.channels}
+                  onAdd={(value) =>
+                    handleChange(['rewards', 'specialChannels', 'channels'], [
+                      ...formData.rewards.specialChannels.channels,
+                      value
+                    ])
+                  }
+                  onRemove={(value) =>
+                    handleChange(
+                      ['rewards', 'specialChannels', 'channels'],
+                      formData.rewards.specialChannels.channels.filter(v => v !== value)
+                    )
+                  }
+                />
+              </Col>
+            </Row>
+          </Accordion.Body>
+        </Accordion.Item>
+
+        <Accordion.Item eventKey="2">
           <Accordion.Header>Tiempo en Canales de Voz</Accordion.Header>
           <Accordion.Body>
             <Row>
@@ -119,10 +169,30 @@ const BotConfigForm: React.FC<BotConfigFormProps> = ({
                 </Form.Group>
               </Col>
             </Row>
+            <Row>
+              <Col>
+                <DiscordIdInput
+                  label="Canales de Voz Excluidos"
+                  values={formData.rewards.voiceTime.excludedChannels}
+                  onAdd={(value) =>
+                    handleChange(['rewards','voiceTime','excludedChannels'], [
+                      ...formData.rewards.voiceTime.excludedChannels,
+                      value
+                    ])
+                  }
+                  onRemove={(value) =>
+                    handleChange(
+                      ['rewards','voiceTime','excludedChannels'],
+                      formData.rewards.voiceTime.excludedChannels.filter(v => v !== value)
+                    )
+                  }
+                />
+              </Col>
+            </Row>
           </Accordion.Body>
         </Accordion.Item>
 
-        <Accordion.Item eventKey="2">
+        <Accordion.Item eventKey="3">
           <Accordion.Header>Recompensas por Foros</Accordion.Header>
           <Accordion.Body>
             <Form.Group className="mb-3">
@@ -153,7 +223,7 @@ const BotConfigForm: React.FC<BotConfigFormProps> = ({
           </Accordion.Body>
         </Accordion.Item>
 
-        <Accordion.Item eventKey="3">
+        <Accordion.Item eventKey="4">
           <Accordion.Header>Canal de Notificaciones</Accordion.Header>
           <Accordion.Body>
             <Form.Group className="mb-3">
@@ -171,7 +241,7 @@ const BotConfigForm: React.FC<BotConfigFormProps> = ({
           </Accordion.Body>
         </Accordion.Item>
 
-        <Accordion.Item eventKey="4">
+        <Accordion.Item eventKey="5">
           <Accordion.Header>Mensajes del Bot</Accordion.Header>
           <Accordion.Body>
             <Form.Group className="mb-3">

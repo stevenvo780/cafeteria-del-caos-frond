@@ -66,7 +66,6 @@ export const metadata: Metadata = {
 
 async function getInitialData() {
   try {
-    console.log(process.env.SITE_URL);
     const [publicationsRes, eventsRes, notesRes, guildMembersRes] = await Promise.all([
       axios.get('/publications', { params: { limit: 4, offset: 0 } }),
       axios.get('/events/home/upcoming?limit=31'),

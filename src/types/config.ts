@@ -24,11 +24,17 @@ export interface BotConfig {
     messages: {
       amount: number;
       coins: number;
-      allowedChannels: string[];
+      excludedChannels: string[];
+    };
+    specialChannels: {
+      channels: string[];
+      amount: number;
+      coins: number;
     };
     voiceTime: {
       minutes: number;
       coins: number;
+      excludedChannels: string[];
     };
     forums: {
       coins: number;
@@ -41,7 +47,6 @@ export interface BotConfig {
   messages: {
     recompensa: string;
     error: string;
-    saldo: string;
   };
 }
 
