@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface InfractionDto {
   name: string;
   value: string;
@@ -48,4 +49,27 @@ export interface XpRole {
   roleId: string;
   name: string;
   requiredXp: number;
+}
+
+export enum UserRole {
+  SUPER_ADMIN = 'super_admin',
+  ADMIN = 'admin',
+  EDITOR = 'editor',
+  USER = 'user',
+}
+
+export interface DiscordRole {
+  id: string;
+  name: string;
+  color: number;
+  position: number;
+}
+
+export interface UserDiscord {
+  id: string;
+  username: string;
+  roles: DiscordRole[];
+  points: number;
+  experience: number;
+  discordData: any;
 }

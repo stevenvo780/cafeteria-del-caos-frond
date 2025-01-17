@@ -295,6 +295,19 @@
           "keywords": "configuración bot, funcionalidades, opciones",
           "type": "dashboard"
         }
+      },
+      {
+        "path": "/kardex",
+        "name": "Kardex",
+        "protected": true,
+        "viewHeader": true,
+        "hidden": true,
+        "seo": {
+          "title": "Kardex | Cafetería del Caos",
+          "description": "Consulta el historial de sanciones y recompensas de los usuarios.",
+          "keywords": "kardex, historial, sanciones, recompensas",
+          "type": "dashboard"
+        }
       }
     ]
   }
