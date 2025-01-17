@@ -245,54 +245,15 @@
         }
       },
       {
-        "path": "/template",
-        "name": "Plantillas",
+        "path": "/settings",
+        "name": "Configuración",
         "protected": true,
         "viewHeader": true,
         "hidden": true,
         "seo": {
-          "title": "Plantillas | Cafetería del Caos",
-          "description": "Gestiona las plantillas utilizadas en la plataforma.",
-          "keywords": "plantillas, gestión de plantillas, administración",
-          "type": "dashboard"
-        }
-      },
-      {
-        "path": "/infractions",
-        "name": "Infracciones",
-        "protected": true,
-        "viewHeader": true,
-        "hidden": true,
-        "seo": {
-          "title": "Infracciones | Cafetería del Caos",
-          "description": "Administra las infracciones y sanciones de los usuarios.",
-          "keywords": "infracciones, sanciones, moderación, administración",
-          "type": "dashboard"
-        }
-      },
-      {
-        "path": "/xp-roles",
-        "name": "Roles de XP",
-        "protected": true,
-        "viewHeader": true,
-        "hidden": true,
-        "seo": {
-          "title": "Roles de XP | Cafetería del Caos",
-          "description": "Administra los roles de XP y sus beneficios.",
-          "keywords": "roles de XP, beneficios, moderación, administración",
-          "type": "dashboard"
-        }
-      },
-      {
-        "path": "/bot-config",
-        "name": "Configuración del Bot",
-        "protected": true,
-        "viewHeader": true,
-        "hidden": true,
-        "seo": {
-          "title": "Configuración del Bot | Cafetería del Caos",
-          "description": "Configura las opciones y funcionalidades del bot de Discord.",
-          "keywords": "configuración bot, funcionalidades, opciones",
+          "title": "Configuración | Cafetería del Caos",
+          "description": "Configura los ajustes y parámetros de la plataforma.",
+          "keywords": "configuración, ajustes, parámetros, administración",
           "type": "dashboard"
         }
       },
