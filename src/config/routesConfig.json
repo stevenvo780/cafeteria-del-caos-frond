@@ -245,19 +245,6 @@
         }
       },
       {
-        "path": "/settings",
-        "name": "Configuración",
-        "protected": true,
-        "viewHeader": true,
-        "hidden": true,
-        "seo": {
-          "title": "Configuración | Cafetería del Caos",
-          "description": "Configura los ajustes y parámetros de la plataforma.",
-          "keywords": "configuración, ajustes, parámetros, administración",
-          "type": "dashboard"
-        }
-      },
-      {
         "path": "/kardex",
         "name": "Kardex",
         "protected": true,
@@ -267,6 +254,19 @@
           "title": "Kardex | Cafetería del Caos",
           "description": "Consulta el historial de sanciones y recompensas de los usuarios.",
           "keywords": "kardex, historial, sanciones, recompensas",
+          "type": "dashboard"
+        }
+      },
+      {
+        "path": "/settings",
+        "name": "Configuración",
+        "protected": true,
+        "viewHeader": true,
+        "hidden": true,
+        "seo": {
+          "title": "Configuración | Cafetería del Caos",
+          "description": "Configura los ajustes y parámetros de la plataforma.",
+          "keywords": "configuración, ajustes, parámetros, administración",
           "type": "dashboard"
         }
       }
