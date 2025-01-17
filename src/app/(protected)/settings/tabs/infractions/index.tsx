@@ -17,7 +17,6 @@ const InfractionsPage: React.FC = () => {
   const fetchInfractions = async () => {
     try {
       const response = await api.get('/config/infractions');
-      console.log('response', response);
       setInfractions(response.data || []);
     } catch (error) {
       console.error('Error fetching infractions:', error);

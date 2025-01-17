@@ -6,8 +6,6 @@ import { loading } from '../redux/ui';
 import { getCurrentUserToken, refreshUserToken } from './firebaseHelper';
 import { logout } from '../redux/auth';
 
-console.log('API URL:', env.NEXT_PUBLIC_API_URL);
-
 const api = axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
   headers: {
