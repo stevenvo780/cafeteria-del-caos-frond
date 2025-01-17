@@ -27,7 +27,7 @@ const NormativaModal: React.FC<NormativaModalProps> = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await api.patch('/config', { generalNormative: normative });
+      const response = await api.patch('/config/normative', { generalNormative: normative });
       setGeneralNormative(response.data.generalNormative);
       setShowModal(false);
       dispatch(addNotification({ message: 'Normativa actualizada correctamente', color: 'success' }));
