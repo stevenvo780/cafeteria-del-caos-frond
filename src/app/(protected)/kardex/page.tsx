@@ -162,7 +162,7 @@ const KardexPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {entries.map((entry) => (
+              {entries?.map((entry) => (
                 <tr key={entry.id}>
                   <td>{entry.id}</td>
                   <td>{entry.userDiscord.id}</td>
