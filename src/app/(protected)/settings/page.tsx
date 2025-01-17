@@ -11,7 +11,6 @@ const SettingsPage: React.FC = () => {
 
   return (
     <Container className="mt-5">
-      <h2 className="mb-4">Configuración</h2>
       <Tab.Container activeKey={activeTab} onSelect={(k) => setActiveTab(k || 'xp-roles')}>
         <Nav variant="tabs" className="mb-4">
           <Nav.Item>
