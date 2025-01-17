@@ -24,7 +24,7 @@ const SettingsPage: React.FC = () => {
             <Nav.Link eventKey="bot">Bot</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="template">Template</Nav.Link>
+            <Nav.Link eventKey="template">Templates</Nav.Link>
           </Nav.Item>
         </Nav>
 
