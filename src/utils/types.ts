@@ -85,6 +85,7 @@ export interface Library extends SharedProp {
   parent?: Library;
   children?: Library[];
   visibility: LibraryVisibility;
+  imageUrl?: string;
 }
 
 export interface LibraryReference {
@@ -112,6 +113,7 @@ export interface CreateLibraryDto {
   referenceDate: Date;
   parentNoteId?: number;
   visibility: LibraryVisibility;
+  imageUrl?: string;
 }
 
 export interface UpdateLibraryDto {
@@ -120,6 +122,7 @@ export interface UpdateLibraryDto {
   referenceDate?: Date;
   parentNoteId?: number;
   visibility?: LibraryVisibility;
+  imageUrl?: string;
 }
 
 export interface Publication extends SharedProp {

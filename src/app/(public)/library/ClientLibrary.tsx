@@ -87,6 +87,19 @@ const ClientLibrary: React.FC<ClientLibraryProps> = ({ initialData }) => {
           {currentNote && (
             <>
               <Col xs={12} md={12}>
+                {currentNote.imageUrl && (
+                  <div className="mb-4">
+                    <img
+                      src={currentNote.imageUrl}
+                      alt={currentNote.title}
+                      style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                        borderRadius: '8px'
+                      }}
+                    />
+                  </div>
+                )}
                 <h4 className="m-0">{currentNote.title}</h4>
                 {currentNote.author && (
                   <p className="text-muted m-0">

@@ -6,9 +6,11 @@ import Select from 'react-select';
 import { TemplateType } from '@/utils/types';
 import { Library, CreateLibraryDto, UpdateLibraryDto, LibraryVisibility } from '@/utils/types';
 import CustomEditor from '@/components/CustomEditor';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { UserRole } from '@/utils/types';
+import { uploadImage } from '@/utils/uploadHelper';
+import { addNotification } from '@/redux/ui';
 
 interface LibraryReference {
   id: number;
@@ -32,10 +34,14 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
   availableParents = [],
   currentNote,
 }) => {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [parentNoteId, setParentNoteId] = useState<number | undefined>(undefined);
   const [visibility, setVisibility] = useState<LibraryVisibility>(LibraryVisibility.GENERAL);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const [isUploading, setIsUploading] = useState(false);
   const userRole = useSelector((state: RootState) => state.auth.userData?.role);
 
   useEffect(() => {
@@ -44,27 +50,59 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
       setDescription(editingLibrary.description);
       setParentNoteId(editingLibrary.parent?.id || undefined);
       setVisibility(editingLibrary.visibility || LibraryVisibility.GENERAL);
+      setImagePreview(editingLibrary.imageUrl || '');
     } else {
       setTitle('');
       setDescription('');
       setParentNoteId(currentNote?.id);
       setVisibility(LibraryVisibility.GENERAL);
+      setImagePreview('');
+      setImageFile(null);
     }
   }, [editingLibrary, currentNote]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsUploading(true);
 
-    const libraryData: CreateLibraryDto | UpdateLibraryDto = {
-      title,
-      description,
-      referenceDate: editingLibrary ? editingLibrary.referenceDate : new Date(),
-      parentNoteId,
-      visibility,
-    };
+    try {
+      let finalImageUrl = editingLibrary?.imageUrl;
+      
+      if (imageFile) {
+        finalImageUrl = await uploadImage(imageFile, 'library');
+      }
 
-    onSubmit(libraryData);
-    onHide();
+      const libraryData: CreateLibraryDto | UpdateLibraryDto = {
+        title,
+        description,
+        referenceDate: editingLibrary ? editingLibrary.referenceDate : new Date(),
+        parentNoteId,
+        visibility,
+        imageUrl: finalImageUrl,
+      };
+
+      onSubmit(libraryData);
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+      dispatch(addNotification({ 
+        message: 'Error al subir la imagen', 
+        color: 'danger' 
+      }));
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const editorRef = useRef<any>(null);
@@ -199,6 +237,29 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
                 </Col>
               </Row>
               <br />
+              <Form.Group controlId="formLibraryImage">
+                <Form.Label>Imagen</Form.Label>
+                {imagePreview && (
+                  <div className="mb-3">
+                    <img
+                      src={imagePreview}
+                      alt="Vista previa"
+                      style={{
+                        maxWidth: '200px',
+                        maxHeight: '200px',
+                        objectFit: 'contain'
+                      }}
+                    />
+                  </div>
+                )}
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="bg-dark text-light border-secondary"
+                />
+              </Form.Group>
+              <br />
               <Form.Group controlId="formLibraryDescription">
                 <Form.Label>Descripción</Form.Label>
                 <CustomEditor
@@ -208,8 +269,19 @@ const LibraryFormModal: React.FC<LibraryFormModalProps> = ({
                 />
               </Form.Group>
               <br />
-              <Button variant="primary" type="submit">
-                {editingLibrary ? 'Actualizar' : 'Crear'}
+              <Button 
+                variant="primary" 
+                type="submit"
+                disabled={isUploading}
+              >
+                {isUploading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" />
+                    Subiendo...
+                  </>
+                ) : (
+                  editingLibrary ? 'Actualizar' : 'Crear'
+                )}
               </Button>
             </Form>
           </Modal.Body>

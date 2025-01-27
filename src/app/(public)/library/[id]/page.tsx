@@ -39,7 +39,15 @@ export async function generateMetadata({
           ...baseMetadata.openGraph,
           title: `${noteData.title} | Biblioteca`,
           description: noteData.description.substring(0, 160),
-          url: `${process.env.NEXT_PUBLIC_SITE_URL}/library/${id}`
+          url: `${process.env.NEXT_PUBLIC_SITE_URL}/library/${id}`,
+          images: noteData.imageUrl ? [
+            {
+              url: noteData.imageUrl,
+              width: 1200,
+              height: 630,
+              alt: noteData.title,
+            }
+          ] : []
         }
       };
     }
