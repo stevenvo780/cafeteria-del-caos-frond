@@ -24,11 +24,24 @@ const LibraryCard: React.FC<LibraryCardProps> = ({
       className="mb-4 library-card" 
       key={library.id} 
     >
+      {library.imageUrl && (
+        <Card.Img 
+          variant="top" 
+          src={library.imageUrl} 
+          alt={library.title}
+          style={{ 
+            height: '150px', 
+            objectFit: 'cover',
+            borderTopLeftRadius: 'calc(0.375rem - 1px)',
+            borderTopRightRadius: 'calc(0.375rem - 1px)'
+          }} 
+        />
+      )}
       <Card.Body 
         onClick={onClick} 
         style={{ 
           cursor: 'pointer',
-          height: '200px',
+          height: library.imageUrl ? '150px' : '200px',
           display: 'flex',
           flexDirection: 'column',
           flex: 1,

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Accordion, Form, Button, Row, Col, Spinner } from 'react-bootstrap';
-import { BotConfig } from '@/types/config';
+import { BotConfig, LibraryVisibility } from '@/types/config';
 import DiscordIdInput from './components/DiscordIdInput';
 
 interface BotConfigFormProps {
@@ -271,6 +271,66 @@ const BotConfigForm: React.FC<BotConfigFormProps> = ({
             </Form.Group>
           </Accordion.Body>
         </Accordion.Item>
+
+        <Accordion.Item eventKey="6">
+          <Accordion.Header>Configuración de Biblioteca</Accordion.Header>
+          <Accordion.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>Carpeta por Defecto</Form.Label>
+              <Form.Control
+                type="text"
+                value={formData.library.defaultFolder}
+                onChange={(e) => handleChange(['library', 'defaultFolder'], e.target.value)}
+                placeholder="Ejemplo: Foros"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Visibilidad por Defecto</Form.Label>
+              <Form.Control
+                as="select"
+                value={formData.library.defaultVisibility}
+                onChange={(e) => handleChange(['library', 'defaultVisibility'], e.target.value)}
+              >
+                <option value={LibraryVisibility.GENERAL}>General</option>
+                <option value={LibraryVisibility.USERS}>Usuarios</option>
+                <option value={LibraryVisibility.ADMIN}>Admin</option>
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Configuración de Foros</Form.Label>
+              <Row>
+                <Col md={6}>
+                  <Form.Check
+                    type="switch"
+                    id="forumEnabled"
+                    label="Habilitar foros"
+                    checked={formData.library.forumConfig.enabled}
+                    onChange={(e) => handleChange(['library', 'forumConfig', 'enabled'], e.target.checked)}
+                  />
+                </Col>
+                <Col md={6}>
+                  <Form.Check
+                    type="switch"
+                    id="autoCreate"
+                    label="Crear automáticamente"
+                    checked={formData.library.forumConfig.autoCreate}
+                    onChange={(e) => handleChange(['library', 'forumConfig', 'autoCreate'], e.target.checked)}
+                  />
+                </Col>
+              </Row>
+              <Form.Control
+                className="mt-2"
+                type="text"
+                value={formData.library.forumConfig.defaultFolder}
+                onChange={(e) => handleChange(['library', 'forumConfig', 'defaultFolder'], e.target.value)}
+                placeholder="Carpeta por defecto para foros"
+              />
+            </Form.Group>
+          </Accordion.Body>
+        </Accordion.Item>
+
       </Accordion>
 
       <div className="d-flex justify-content-end mt-4">

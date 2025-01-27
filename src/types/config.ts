@@ -19,6 +19,22 @@ export interface Config {
   infractions: InfractionDto[];
 }
 
+export enum LibraryVisibility {
+  GENERAL = 'general',
+  USERS = 'users',
+  ADMIN = 'admin',
+}
+
+export interface LibraryConfig {
+  defaultFolder: string;
+  defaultVisibility: LibraryVisibility;
+  forumConfig: {
+    enabled: boolean;
+    autoCreate: boolean;
+    defaultFolder: string;
+  };
+}
+
 export interface BotConfig {
   rewards: {
     messages: {
@@ -48,6 +64,7 @@ export interface BotConfig {
     recompensa: string;
     error: string;
   };
+  library: LibraryConfig;
 }
 
 export interface XpRole {
