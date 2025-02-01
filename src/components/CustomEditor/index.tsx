@@ -10,6 +10,7 @@ import TemplateSlider from './TemplateSlider';
 import { Button } from 'react-bootstrap';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getCSSVariable, colorPalette, CustomEditorProps, BlobInfo } from './types';
+import CustomURLUploader from './CustomURLUploader';
 
 // Reemplaza import directo con carga dinámica
 const TinyMCEEditor = dynamic(
@@ -26,6 +27,7 @@ const CustomEditor: React.FC<CustomEditorProps> = ({
   const [editorContent, setEditorContent] = useState(content);
   const [viewMode, setViewMode] = useState<'editor' | 'html'>('editor');
   const editorRef = useRef<any>(null);
+  const [showURLUploader, setShowURLUploader] = useState(false);
 
   useEffect(() => {
     setEditorContent(content);
@@ -43,7 +45,7 @@ const CustomEditor: React.FC<CustomEditorProps> = ({
   const tinyMCEInit: Record<string, any> = {
     height: height,
     menubar: false,
-    plugins: ['link', 'fullscreen', 'help', 'save', 'emoticons'],
+    plugins: ['fullscreen', 'help', 'save', 'emoticons'],
     content_css: [
       'dark',
       'bootstrap/dist/css/bootstrap.min.css',
@@ -51,8 +53,7 @@ const CustomEditor: React.FC<CustomEditorProps> = ({
     toolbar:
       'undo redo | formatselect | bold italic forecolor backcolor | ' +
       'alignleft aligncenter alignright alignjustify | ' +
-      'bullist numlist outdent indent | removeformat | link | ' +
-      'hr | emoticons | fullscreen | customUploadImageButton',
+      'bullist numlist outdent indent | removeformat | hr | emoticons | fullscreen | customUploadImageButton customURLButton',
     setup: (editor: any) => {
       editor.ui.registry.addButton('customUploadImageButton', {
         icon: 'upload',
@@ -75,6 +76,13 @@ const CustomEditor: React.FC<CustomEditorProps> = ({
             }
           };
           fileInput.click();
+        },
+      });
+      editor.ui.registry.addButton('customURLButton', {
+        icon: 'link',
+        tooltip: 'Insertar Link con Preview',
+        onAction: () => {
+          setShowURLUploader(true);
         },
       });
     },
@@ -178,6 +186,15 @@ const CustomEditor: React.FC<CustomEditorProps> = ({
         onTemplateClick={(templateContent: string) => {
           setEditorContent(templateContent);
           setContent(templateContent);
+        }}
+      />
+      <CustomURLUploader
+        show={showURLUploader}
+        onClose={() => setShowURLUploader(false)}
+        onInsertURL={(linkHtml: string) => {
+          if (editorRef.current) {
+            editorRef.current.insertContent(linkHtml);
+          }
         }}
       />
     </>

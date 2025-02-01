@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { storage } from '../../utils/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { EditorState, AtomicBlockUtils } from 'draft-js';
 import { FaImage } from 'react-icons/fa';
 
@@ -30,10 +31,9 @@ const CustomImageUpload: React.FC<CustomImageUploadProps> = ({ editorState, onEd
     setUploading(true);
 
     try {
-      const storageRef = storage.ref();
-      const fileRef = storageRef.child(`images/${imageFile.name}`);
-      await fileRef.put(imageFile);
-      const fileUrl = await fileRef.getDownloadURL();
+      const fileRef = ref(storage, `images/${imageFile.name}`);
+      await uploadBytes(fileRef, imageFile);
+      const fileUrl = await getDownloadURL(fileRef);
 
       const contentState = editorState.getCurrentContent();
       const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', { src: fileUrl });
