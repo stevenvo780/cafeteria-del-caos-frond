@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState, useRef } from 'react';
-import { Editor as TinyMCEEditor } from '@tinymce/tinymce-react';
 import EditorCode from 'react-simple-code-editor';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
@@ -10,6 +10,12 @@ import TemplateSlider from './TemplateSlider';
 import { Button } from 'react-bootstrap';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getCSSVariable, colorPalette, CustomEditorProps, BlobInfo } from './types';
+
+// Reemplaza import directo con carga dinámica
+const TinyMCEEditor = dynamic(
+  () => import('@tinymce/tinymce-react').then(mod => mod.Editor),
+  { ssr: false }
+);
 
 const CustomEditor: React.FC<CustomEditorProps> = ({
   content,

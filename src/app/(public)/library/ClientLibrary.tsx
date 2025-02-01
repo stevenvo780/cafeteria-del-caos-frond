@@ -2,6 +2,7 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Pagination from 'react-bootstrap/Pagination';
+import Image from 'next/image';
 
 import { Library, Like, UserRole } from '@/utils/types';
 import { getRoleInSpanish } from '@/utils/roleTranslation';
@@ -86,37 +87,61 @@ const ClientLibrary: React.FC<ClientLibraryProps> = ({ initialData }) => {
         <Row className={currentNote ? 'library-detail-container' : ''}>
           {currentNote && (
             <>
-              <Col xs={12} md={12}>
-                {currentNote.imageUrl && (
-                  <div className="mb-4">
-                    <img
-                      src={currentNote.imageUrl}
-                      alt={currentNote.title}
-                      style={{
-                        maxWidth: '100%',
-                        height: 'auto',
-                        borderRadius: '8px'
-                      }}
-                    />
-                  </div>
+              {/* Detalle de nota con columnas según presencia de imagen */}
+              <Row className="mb-4 align-items-center">
+                {currentNote.imageUrl ? (
+                  <>
+                    <Col md={6}>
+                      <h4>{currentNote.title}</h4>
+                      {currentNote.author && (
+                        <p className="text-muted">
+                          {`${currentNote.author.name} - ${getRoleInSpanish(currentNote.author.role)}`}
+                        </p>
+                      )}
+                    </Col>
+                    <Col md={6}>
+                      <Image
+                        src={currentNote.imageUrl}
+                        alt={currentNote.title}
+                        width={400}
+                        height={200}
+                        style={{
+                          maxWidth: '100%',
+                          maxHeight: '200px',
+                          borderRadius: '8px',
+                          objectFit: 'contain'
+                        }}
+                      />
+                    </Col>
+                  </>
+                ) : (
+                  <Col md={12}>
+                    <h4>{currentNote.title}</h4>
+                    {currentNote.author && (
+                      <p className="text-muted">
+                        {`${currentNote.author.name} - ${getRoleInSpanish(currentNote.author.role)}`}
+                      </p>
+                    )
+                    }</Col>
                 )}
-                <h4 className="m-0">{currentNote.title}</h4>
-                {currentNote.author && (
-                  <p className="text-muted m-0">
-                    {`${currentNote.author.name} - ${getRoleInSpanish(currentNote.author.role)}`}
-                  </p>
-                )}
-                <div dangerouslySetInnerHTML={{ __html: currentNote.description }} />
-              </Col>
-              <Col xs={12} md={12} className="text-left d-flex">
-                <ActionButtons
-                  userLike={likesData[currentNote.id]?.userLike}
-                  likesCount={likesData[currentNote.id]?.likes || 0}
-                  dislikesCount={likesData[currentNote.id]?.dislikes || 0}
-                  onLikeToggle={(isLike) => handleLikeToggle(currentNote.id, isLike)}
-                  onShare={() => handleShare(currentNote)}
-                />
-              </Col>
+              </Row>
+              <Row>
+                <Col md={12}>
+                  <div dangerouslySetInnerHTML={{ __html: currentNote.description }} />
+                </Col>
+              </Row>
+              {/* Botones de acción debajo del detalle */}
+              <Row className="mb-4">
+                <Col className="text-center">
+                  <ActionButtons
+                    userLike={likesData[currentNote.id]?.userLike}
+                    likesCount={likesData[currentNote.id]?.likes || 0}
+                    dislikesCount={likesData[currentNote.id]?.dislikes || 0}
+                    onLikeToggle={(isLike) => handleLikeToggle(currentNote.id, isLike)}
+                    onShare={() => handleShare(currentNote)}
+                  />
+                </Col>
+              </Row>
             </>
           )}
         </Row>
