@@ -12,7 +12,6 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getCSSVariable, colorPalette, CustomEditorProps, BlobInfo } from './types';
 import CustomURLUploader from './CustomURLUploader';
 
-// Reemplaza import directo con carga dinámica
 const TinyMCEEditor = dynamic(
   () => import('@tinymce/tinymce-react').then(mod => mod.Editor),
   { ssr: false }

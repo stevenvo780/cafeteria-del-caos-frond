@@ -34,7 +34,7 @@ const NormativaClient: React.FC = () => {
 
   return (
     <>
-      {userRole === UserRole.ADMIN && (
+      {(userRole === UserRole.ADMIN || userRole === UserRole.SUPER_ADMIN) && (
         <div className="edit-icon-container position-fixed" style={{ top: '100px', right: '50px' }}>
           <FaEdit
             size={24}
